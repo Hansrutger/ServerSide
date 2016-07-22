@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Details";
+    RealBusinessPage.Models.Accounts userObj = ViewBag.UserInfo;
+}
+
+<h2>Details - @userObj.FirstName @userObj.LastName</h2>
+<div>
+    Address: @userObj.Address <br />
+    Tel No.: @userObj.TelNo
+    <br /><br />
+    <a href="/loan/details/?username=@userObj.Username">View Loans</a>
+
+</div>
+

@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    List<RealBusinessPage.Models.Books> bookList = ViewBag.BookList;
+}
+
+<h2>Index</h2>
+
+@using (Html.BeginForm("Search", "search", FormMethod.Post))
+{
+    <input id="searchInput" type="text" name="searchText" placeholder="Input title or author name here" style="width:350px" />
+
+    <input type="submit" value="Search" />
+}
+<br />
+<br />
+@foreach (var obj in bookList)
+{
+    <p><a href="/book/details?bookId=@obj.BookId">@obj.Title</a> (<a href="/book/edit/@obj.BookId">Edit</a>, <a href="/book/remove/@obj.BookId">Delete</a>)</p>
+    <br />
+}
+
+@if(Session["username"] != null && Session["level"].ToString() == "2")
+{
+    <br />
+    <br />
+    <a href="/book/create">Create new book</a><br />
+    <a href="/author/create">Create new author</a>
+}

@@ -1,0 +1,68 @@
+﻿#mainPicContainer{
+    position:relative;
+    text-align:center;
+    margin:auto;
+    margin-top:50px;
+    width:802px;
+    height:252px;
+    border:1px solid black;
+}
+
+#mainPicContainer img{
+    position:absolute;
+    left:0;
+    -webkit-transition: opacity 1s ease-in-out;
+    -moz-transition: opacity 1s ease-in-out;
+    -o-transition: opacity 1s ease-in-out;
+    transition: opacity 1s ease-in-out;
+}
+
+#mainPicContainer img.top:hover{
+    opacity:0;
+}
+
+.top{
+    height: 250px;
+    width: 800px;
+    overflow: hidden;
+    text-align:center;
+}
+
+.bottom{
+    height: 250px;
+    width: 800px;
+    overflow: hidden;
+}
+
+
+#topMenu{
+    width:802px;
+    height:22px;
+    border:1px solid black;
+    margin:auto;
+}
+
+.topMenuBtnLeft{
+    float:left;
+    width:100px;
+    text-align:center;
+}
+
+.topMenuBtnRight{
+    float:right;
+    width:100px;
+    text-align:center;
+}
+
+.topMenuBtnLeft:hover, .topMenuBtnRight:hover{
+    background-color:lightgrey;
+    cursor:pointer;
+}
+
+
+#bodyContent{
+    margin:auto;
+    width:801px;
+    height:100px;
+    padding:10px;
+}

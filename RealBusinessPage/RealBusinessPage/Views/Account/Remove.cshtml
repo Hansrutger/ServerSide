@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "Remove";
+}
+
+<h2>Remove</h2>
+
+@if (Session["admin"] != null && Session["admin"].ToString() == "true")
+{
+    using (Html.BeginForm("Remove", "account", FormMethod.Post))
+    {
+        <input type="submit" value="Remove this user already!" />
+    }
+}

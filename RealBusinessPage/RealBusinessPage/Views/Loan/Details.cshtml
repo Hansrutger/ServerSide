@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "Details";
+    List<RealBusinessPage.Models.Loans> loanList = ViewBag.LoanList;
+    List<RealBusinessPage.Models.Accounts> AccountList = ViewBag.AccountList;
+    string selectedUser = ViewBag.selectedUser;
+}
+
+<h2>@if (Session["level"].ToString() == "2") { <text> Users - Loans </text>}</h2>
+<div>
+    @if (Session["level"].ToString()=="2")
+    {
+        foreach( var obj in AccountList)
+        {
+            @obj.Username <text> - <a href="/account/Details?username=@obj.Username"> See Info</a> </text>
+
+        }
+    }
+
+</div>
+
+
+<h2>@if (ViewBag.selectedUser != null) {@selectedUser.ToString()} Loans</h2>
+<div>
+    @foreach (var obj in loanList)
+    {
+        @obj.Books.Title <text> - (Lasts: @obj.Date <a href="/loan/renew?loanId=@obj.LoanId">Renew loan</a> | <a href="/loan/delete/@obj.LoanId">Remove loan</a>)</text>
+        <br />
+    }
+</div>
+

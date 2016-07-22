@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Edit";
+    RealBusinessPage.Models.Accounts userObj = ViewBag.AccountInfo;
+}
+
+<h2>Edit</h2>
+
+@if (Session["admin"] != null && Session["admin"].ToString() == "true")
+{
+    using (Html.BeginForm("Edit", "account", FormMethod.Post))
+    {
+        <table>
+            <tr>
+                <td>Username:</td>
+                <td><input type="text" name="Username" value="@userObj.Username" /></td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td><input type="password" name="Password" value="@userObj.Password" /></td>
+            </tr>
+            <tr>
+                <td>Firstname:</td>
+                <td><input type="text" name="FirstName" value="@userObj.FirstName" required /></td>
+            </tr>
+            <tr>
+                <td>Lastname:</td>
+                <td><input type="text" name="LastName" value="@userObj.LastName" required /></td>
+            </tr>
+            <tr>
+                <td>Address:</td>
+                <td><input type="text" name="Address" value="@userObj.Address" required /></td>
+            </tr>
+            <tr>
+                <td>TelNo:</td>
+                <td><input type="number" name="TelNo" value="@userObj.TelNo" required /></td>
+            </tr>
+            <tr>
+                <td>Level:</td>
+                <td><input type="number" name="Level" value="@userObj.Level" required /></td>
+            </tr>
+        </table>
+
+        <br />
+        <input type="submit" value="Edit user" />
+    }
+}

@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "Details";
+    RealBusinessPage.Models.Books bookObj = ViewBag.BookInfo;
+    String bookLoan = ViewBag.BookLoan;
+    RealBusinessPage.Models.Accounts accObj = ViewBag.AccountInfo;
+    RealBusinessPage.Models.Loans loanObj = ViewBag.LoanInfo;
+}
+
+<h3>@bookObj.Title - @bookObj.ISBN</h3>
+
+
+<div>
+    - @bookObj.Description <br />
+    Publication Year: @bookObj.PubYear <br />
+    Author: <a href="/author/details/?aid=@bookObj.Authors.AuthorId">@bookObj.Authors.FirstName @bookObj.Authors.LastName</a> <br />
+    Pages: @bookObj.Pages
+</div>
+
+
+@if (Session["loggedIn"] != null && Session["loggedIn"].ToString() == "true")
+{
+    <a href="/loan/create?bookId=@bookObj.BookId&username=@Session["username"].ToString()">Attempt to loan this book!</a>
+}
+@if (Session["admin"] != null && Session["admin"].ToString() == "true")
+{
+    <br />
+    <br />
+    <br />
+    if(bookLoan == "true")
+    {
+        <p>This book is borrowed by <a href="/account/details?Username=@accObj.Username">@accObj.Username</a>!</p><br />
+        <a href="/loan/delete/@loanObj.LoanId">Force the loan to disappear!</a>
+    }
+    else
+    {
+        <a href="/loan/ForceLoan/@bookObj.BookId">Force this book to be borrowed!</a>
+    }
+}
+
+
+

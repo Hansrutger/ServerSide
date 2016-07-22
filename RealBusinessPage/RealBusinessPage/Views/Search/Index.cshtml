@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    List<RealBusinessPage.Models.Books> resultList = ViewBag.ResultSearch;
+}
+
+<h2>Search</h2>
+
+@using (Html.BeginForm("Search", "search", FormMethod.Post))
+{
+    <input id="searchInput" type="text" name="searchText" placeholder="Input title or author name here" style="width:350px"/> 
+    
+    <input type="submit" value="Search" />
+}
+<br />
+<br />
+@if (Session["username"] != null && Session["level"].ToString() == "2")
+{
+    foreach (var obj in resultList)
+    {
+        <p><a href="/book/details?bookId=@obj.BookId">@obj.Title (<a href="/book/edit/@obj.BookId">Edit</a>, <a href="/book/remove/@obj.BookId">Delete</a>)</a></p>
+        <br />
+    }
+
+    <br />
+    <br />
+    <a href="/book/create">Create new book</a><br />
+    <a href="/author/create">Create new author</a>
+}
+else
+{
+    foreach (var obj in resultList)
+    {
+        <p><a href="/book/details?bookId=@obj.BookId">@obj.Title</a><a href="/loan/Create?bookId=@obj.BookId&username=@Session["username"].ToString()">Låna</a> </p> 
+        <br />
+    }
+}

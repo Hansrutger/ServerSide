@@ -1,0 +1,40 @@
+﻿@{
+    ViewBag.Title = "Edit";
+    RealBusinessPage.Models.Books bookObj = ViewBag.BookInfo;
+}
+
+<h2>Edit - @bookObj.Title (@bookObj.ISBN)</h2>
+
+@using (Html.BeginForm("Edit", "book", FormMethod.Post))
+{
+    <table>
+        <tr>
+            <td>ISBN:</td>
+            <td><input type="text" name="ISBN" value="@bookObj.ISBN" required /></td>
+        </tr>
+        <tr>
+            <td>Title:</td>
+            <td><input type="text" name="Title" value="@bookObj.Title" required /></td>
+        </tr>
+        <tr>
+            <td>PublicationYear:</td>
+            <td><input type="number" name="PublicationYear" value="@bookObj.PubYear" /></td>
+        </tr>
+        <tr>
+            <td>Description:</td>
+            <td><input type="text" name="Description" value="@bookObj.Description" /></td>
+        </tr>
+        <tr>
+            <td>Pages:</td>
+            <td><input type="number" name="Pages" value="@bookObj.Pages" /></td>
+        </tr>
+        <tr>
+            <td>AuthorId:</td>
+            <td><input type="number" name="AuthorId" value="@bookObj.Authors.AuthorId" /></td>
+        </tr>
+    </table>
+
+    <br />
+    <input type="submit" value="Edit existing company" />
+}
+
