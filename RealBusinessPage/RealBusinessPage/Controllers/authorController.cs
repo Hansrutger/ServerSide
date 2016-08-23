@@ -121,11 +121,11 @@ namespace RealBusinessPage.Controllers
 
                     return RedirectToAction("Details", "book", new { bookId = id });
                  }
-                catch
-                {
-                    return View();
-                }
-            }
+                  catch (Exception e)
+                  {
+                      return RedirectToAction("Error");
+                  }
+              }
 
             // GET: author/Delete/5 - admin
             public ActionResult Remove(int id)

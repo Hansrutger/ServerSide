@@ -53,10 +53,10 @@ namespace RealBusinessPage.Controllers
             // GET: account/Create - admin
             public ActionResult Create()
             {
-            if (Session["level"].ToString() != "2")
-            {
-                return RedirectToAction("Index", "main");
-            }
+            //if (Session["level"].ToString() != "2")
+            //{
+            //    return RedirectToAction("Index", "main");
+            //}
             return View();
             }
 

@@ -146,6 +146,11 @@ namespace RealBusinessPage.Controllers
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
+            if (Session["level"].ToString() != "2")
+            {
+                return RedirectToAction("Index", "main");
+            }
+
             try
             {
                 String isbnInput = collection["ISBN"].ToString();
