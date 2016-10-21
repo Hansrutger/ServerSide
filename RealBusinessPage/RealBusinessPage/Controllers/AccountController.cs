@@ -19,9 +19,9 @@ namespace RealBusinessPage.Controllers
                     return RedirectToAction("Index", "main");
                 }
                
-                using (var db = new LibraryDB())
+                using (var db = new Model())
                 {
-                    var dbUser = (from u in db.Accounts select u).ToList();
+                    var dbUser = (from u in db.ACCOUNTs select u).ToList();
                     if (dbUser != null)
                     {
                         ViewBag.UserList = dbUser;
@@ -39,9 +39,9 @@ namespace RealBusinessPage.Controllers
                 return RedirectToAction("Index", "main");
             }
 
-            using (var db = new LibraryDB())
+            using (var db = new Model())
                 {
-                    var dbUser = (from a in db.Accounts where a.Username == Username select a).SingleOrDefault();
+                    var dbUser = (from a in db.ACCOUNTs where a.Username == Username select a).SingleOrDefault();
                     if (dbUser != null)
                     {
                         ViewBag.UserInfo = dbUser;
@@ -74,9 +74,9 @@ namespace RealBusinessPage.Controllers
                     int TelNoInput = Convert.ToInt32(collection["TelNo"].ToString());
                     int LevelInput = Convert.ToInt32(collection["Level"].ToString());
 
-                    using (var db = new LibraryDB())
+                    using (var db = new Model())
                     {
-                        var dbUser = (from u in db.Accounts where u.Username == UsernameInput select u).SingleOrDefault();
+                        var dbUser = (from u in db.ACCOUNTs where u.Username == UsernameInput select u).SingleOrDefault();
                         if (dbUser == null)
                         {
                             Accounts userObj = new Accounts();
@@ -88,7 +88,7 @@ namespace RealBusinessPage.Controllers
                             userObj.TelNo = TelNoInput;
                             userObj.Level = LevelInput;
 
-                            db.Accounts.Add(userObj);
+                         //   db.ACCOUNTs.Add(userObj);
                             db.SaveChanges();
                         }
                         else
@@ -111,9 +111,9 @@ namespace RealBusinessPage.Controllers
             {
                 return RedirectToAction("Index", "main");
             }
-            using (var db = new LibraryDB())
+            using (var db = new Model())
                 {
-                    var dbAccount = (from a in db.Accounts where a.AccId == id select a).SingleOrDefault();
+                    var dbAccount = (from a in db.ACCOUNTs where a.AccId == id select a).SingleOrDefault();
                     if (dbAccount != null)
                     {
                         ViewBag.AccountInfo = dbAccount;
@@ -144,9 +144,9 @@ namespace RealBusinessPage.Controllers
                     int TelNoInput = Convert.ToInt32(collection["TelNo"].ToString());
                     int LevelInput = Convert.ToInt32(collection["Level"].ToString());
 
-                    using (var db = new LibraryDB())
+                    using (var db = new Model())
                     {
-                        var dbAccount = (from a in db.Accounts where a.AccId == id select a).SingleOrDefault();
+                        var dbAccount = (from a in db.ACCOUNTs where a.AccId == id select a).SingleOrDefault();
                         if (dbAccount != null)
                         {
                             dbAccount.Username = UsernameInput;
@@ -187,12 +187,12 @@ namespace RealBusinessPage.Controllers
             {
                 try
                 {
-                    using (var db = new LibraryDB())
+                    using (var db = new Model())
                     {
-                        var dbAccount = (from a in db.Accounts where a.AccId == id select a).SingleOrDefault();
+                        var dbAccount = (from a in db.ACCOUNTs where a.Id == id select a).SingleOrDefault();
                         if (dbAccount != null)
                         {
-                            db.Accounts.Remove(dbAccount);
+                            db.ACCOUNTs.Remove(dbAccount);
                             db.SaveChanges();
                         }
                         else

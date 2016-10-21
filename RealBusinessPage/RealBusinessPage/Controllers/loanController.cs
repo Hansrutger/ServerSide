@@ -27,7 +27,7 @@ namespace RealBusinessPage.Controllers
 
             if(Session["level"].ToString() == "2")
             {
-                using (var db = new LibraryDB())
+                using (var db = new Model())
                 {
                     var dbAccounts = db.Accounts.ToList();
                     List<Accounts> accountList = new List<Accounts>();
@@ -44,7 +44,7 @@ namespace RealBusinessPage.Controllers
 
 
 
-            using (var db = new LibraryDB())
+            using (var db = new Model())
             {
                 var dbLoan = (from i in db.Loans.Include("Accounts").Include("Books") where i.Accounts.Username == username select i).ToList();
                 List<Loans> loanList = new List<Loans>();
@@ -61,7 +61,7 @@ namespace RealBusinessPage.Controllers
         public ActionResult Renew(int loanId)
         {
             DateTime newDate = DateTime.Now.AddDays(20);
-            using (var db = new LibraryDB())
+            using (var db = new Model())
             {
                 var dbLoan = (from i in db.Loans where i.LoanId == loanId select i).SingleOrDefault();
                 if (dbLoan != null)
@@ -77,7 +77,7 @@ namespace RealBusinessPage.Controllers
         // GET: loan/Create
         public ActionResult Create(int bookId, string username)
         {
-            using (var db = new LibraryDB())
+            using (var db = new Model())
             {
                 var dbBook = (from b in db.Books where b.BookId == bookId select b).SingleOrDefault();
                 if (dbBook != null)
@@ -161,7 +161,7 @@ namespace RealBusinessPage.Controllers
         // GET: loan/Delete/5
         public ActionResult Delete(int id)
         {
-            using (var db = new LibraryDB())
+            using (var db = new Model())
             {
                 var dbLoan = (from i in db.Loans where i.LoanId == id select i).SingleOrDefault();
                 if (dbLoan != null)
@@ -188,7 +188,7 @@ namespace RealBusinessPage.Controllers
             try
             {
                 String username = collection["username"].ToString();
-                using (var db = new LibraryDB())
+                using (var db = new Model())
                 {
                     var dbUser = (from u in db.Accounts where u.Username == username select u).SingleOrDefault();
                     if (dbUser != null)

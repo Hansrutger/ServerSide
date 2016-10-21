@@ -33,5 +33,6 @@ namespace RealBusinessPage
         public virtual DbSet<CLASSIFICATION> CLASSIFICATIONs { get; set; }
         public virtual DbSet<COPY> COPies { get; set; }
         public virtual DbSet<STATUS> STATUS { get; set; }
+        public virtual DbSet<ACCOUNT> ACCOUNTs { get; set; }
     }
 }

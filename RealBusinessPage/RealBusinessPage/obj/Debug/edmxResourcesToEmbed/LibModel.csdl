@@ -50,6 +50,7 @@
     <Property Name="CategoryId" Type="Int32" />
     <NavigationProperty Name="BORROWs" Relationship="Self.FK_BORROW_BORROWER" FromRole="BORROWER" ToRole="BORROW" />
     <NavigationProperty Name="CATEGORY" Relationship="Self.FK_BORROWER_CATEGORY" FromRole="BORROWER" ToRole="CATEGORY" />
+    <NavigationProperty Name="ACCOUNT" Relationship="DBLibraryModel.ACCOUNTBORROWER" FromRole="BORROWER" ToRole="ACCOUNT" />
   </EntityType>
   <EntityType Name="CATEGORY">
     <Key>
@@ -204,5 +205,24 @@
       <End Role="AUTHOR" EntitySet="AUTHORs" />
       <End Role="BOOK" EntitySet="BOOKs" />
     </AssociationSet>
+    <EntitySet Name="ACCOUNTs" EntityType="DBLibraryModel.ACCOUNT" />
+    <AssociationSet Name="ACCOUNTBORROWER" Association="DBLibraryModel.ACCOUNTBORROWER">
+      <End Role="ACCOUNT" EntitySet="ACCOUNTs" />
+      <End Role="BORROWER" EntitySet="BORROWERs" />
+    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="ACCOUNT">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="String" Nullable="false" />
+    <Property Name="Password" Type="String" Nullable="false" />
+    <Property Name="Level" Type="Int16" Nullable="false" />
+    <NavigationProperty Name="BORROWER" Relationship="DBLibraryModel.ACCOUNTBORROWER" FromRole="ACCOUNT" ToRole="BORROWER" />
+  </EntityType>
+  <Association Name="ACCOUNTBORROWER">
+    <End Type="DBLibraryModel.ACCOUNT" Role="ACCOUNT" Multiplicity="1" />
+    <End Type="DBLibraryModel.BORROWER" Role="BORROWER" Multiplicity="1" />
+  </Association>
 </Schema>

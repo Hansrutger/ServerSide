@@ -24,7 +24,7 @@ namespace RealBusinessPage.Controllers
             public ActionResult Details(int aid)
             {
            
-            using (var db = new LibraryDB())
+            using (var db = new Model())
                 {
                     var dbAuthor = (from a in db.Authors where a.AuthorId == aid select a).SingleOrDefault();
                     if (dbAuthor != null)
@@ -59,7 +59,7 @@ namespace RealBusinessPage.Controllers
                     String LastNameInput = collection["LastName"].ToString();
                     int BirthYearInput = Convert.ToInt32(collection["BirthYear"].ToString());
 
-                    using (var db = new LibraryDB())
+                    using (var db = new Model())
                     {
                         Authors authorObj = new Authors();
                         authorObj.FirstName = FirstNameInput;
@@ -85,7 +85,7 @@ namespace RealBusinessPage.Controllers
             {
                 return RedirectToAction("Index", "main");
             }
-            using (var db = new LibraryDB())
+            using (var db = new Model())
                 {
                     var dbAuthor = (from a in db.Authors where a.AuthorId == id select a).SingleOrDefault();
                     if (dbAuthor != null)
@@ -110,7 +110,7 @@ namespace RealBusinessPage.Controllers
                     String LastNameInput = collection["LastName"].ToString();
                     int BirthYearInput = Convert.ToInt32(collection["BirthYear"].ToString());
 
-                    using (var db = new LibraryDB())
+                    using (var db = new Model())
                     {
                         var dbAuthor = (from a in db.Authors where a.AuthorId == id select a).SingleOrDefault();
                         dbAuthor.FirstName = FirstNameInput;
@@ -143,12 +143,12 @@ namespace RealBusinessPage.Controllers
             {
                 try
                 {
-                    using (var db = new LibraryDB())
+                    using (var db = new Model())
                     {
-                        var dbAuthor = (from a in db.Authors where a.AuthorId == id select a).SingleOrDefault();
+                        var dbAuthor = (from a in db.AUTHORs where a.Aid == id select a).SingleOrDefault();
                         if (dbAuthor != null)
                         {
-                            var dbBook = (from b in db.Books where b.AuthorId == id select b).ToList();
+                            var dbBook = (from b in db.BOOKs where b.ISBN == id select b).ToList();
                             if (dbBook != null)
                             {
                                 foreach (var book in dbBook)

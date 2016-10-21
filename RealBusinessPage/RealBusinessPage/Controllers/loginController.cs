@@ -25,7 +25,7 @@ namespace RealBusinessPage.Controllers
                 string username = collection["Username"].ToString();
                 string password = collection["Password"].ToString();
 
-                using (var db = new LibraryDB())
+                using (var db = new Model())
                 {
                     var user = (from a in db.Accounts where a.Username == username select a).SingleOrDefault();
                     if (user != null)

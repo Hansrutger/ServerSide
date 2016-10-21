@@ -20,6 +20,8 @@
         <AssociationConnector Association="DBLibraryModel.FK_BORROWER_CATEGORY" ManuallyRouted="false" />
         <AssociationConnector Association="DBLibraryModel.FK_COPY_STATUS" ManuallyRouted="false" />
         <AssociationConnector Association="DBLibraryModel.BOOK_AUTHOR" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DBLibraryModel.ACCOUNT" PointX="5.375" PointY="4.875" Width="1.5" />
+        <AssociationConnector Association="DBLibraryModel.ACCOUNTBORROWER" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -19,7 +19,7 @@ namespace RealBusinessPage.Controllers
             List<Books> resultList = new List<Books>();
             try
             {
-                using (var db = new LibraryDB())
+                using (var db = new Model())
                 {
                     var bookObj = (from b in db.Books select b).ToList();
 
@@ -54,7 +54,7 @@ namespace RealBusinessPage.Controllers
             {
                 String s = collection["searchText"].ToString();
 
-                using (var db = new LibraryDB())
+                using (var db = new Model())
                 {
                     var authorObj = (from a in db.Authors where (a.FirstName.Contains(s) || a.LastName.Contains(s)) select a).ToList();
                     var bookObj = (from b in db.Books where b.Title.Contains(s) select b).ToList();

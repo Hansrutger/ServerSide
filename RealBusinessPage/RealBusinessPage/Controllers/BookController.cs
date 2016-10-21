@@ -55,7 +55,7 @@ namespace RealBusinessPage.Controllers
                 int PagesInput = Convert.ToInt32(collection["Pages"].ToString());
                 int AuthorId = Convert.ToInt32(collection["AuthorId"].ToString());
 
-                using (var db = new LibraryDB())
+                using (var db = new Model())
                 {
                     var dbAuthor = (from a in db.Authors where a.AuthorId == AuthorId select a).SingleOrDefault();
                     if (dbAuthor != null)
@@ -93,7 +93,7 @@ namespace RealBusinessPage.Controllers
         public ActionResult Details(int bookId)
         {
             
-        using (var db = new LibraryDB())
+        using (var db = new Model())
             {
                 var dbBook = (from b in db.Books.Include("Authors") where b.BookId == bookId select b).SingleOrDefault();
                 if (dbBook != null)
@@ -130,7 +130,7 @@ namespace RealBusinessPage.Controllers
         {
             return RedirectToAction("Index", "main");
         }
-        using (var db = new LibraryDB())
+        using (var db = new Model())
             {
                 var dbBook = (from b in db.Books.Include("Authors") where b.BookId == id select b).SingleOrDefault();
                 if (dbBook != null)
@@ -160,7 +160,7 @@ namespace RealBusinessPage.Controllers
                 int PagesInput = Convert.ToInt32(collection["Pages"].ToString());
                 int AuthorId = Convert.ToInt32(collection["AuthorId"].ToString());
 
-                using (var db = new LibraryDB())
+                using (var db = new Model())
                 {
                     var dbBook = (from b in db.Books where b.BookId == id select b).SingleOrDefault();
                     var dbAuthor = (from a in db.Authors where a.AuthorId == AuthorId select a).SingleOrDefault();
@@ -209,7 +209,7 @@ namespace RealBusinessPage.Controllers
         {
             try
             {
-                using (var db = new LibraryDB())
+                using (var db = new Model())
                 {
                     var dbBook = (from b in db.Books where b.BookId == id select b).SingleOrDefault();
                     if (dbBook != null)

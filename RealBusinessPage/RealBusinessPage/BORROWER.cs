@@ -30,5 +30,6 @@ namespace RealBusinessPage
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BORROW> BORROWs { get; set; }
         public virtual CATEGORY CATEGORY { get; set; }
+        public virtual ACCOUNT ACCOUNT { get; set; }
     }
 }

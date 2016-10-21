@@ -163,6 +163,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ACCOUNT.cs">
+      <DependentUpon>LibModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -213,7 +216,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LibModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="LibraryDB.cs" />
     <Compile Include="Migrations\201604151415075_SimbaHemma.cs" />
     <Compile Include="Migrations\201604151415075_SimbaHemma.Designer.cs">
       <DependentUpon>201604151415075_SimbaHemma.cs</DependentUpon>
@@ -242,6 +244,7 @@
       <DependentUpon>LibModel.edmx</DependentUpon>
       <LastGenOutput>LibModel.Context.cs</LastGenOutput>
     </Content>
+    <Content Include="LibModel.edmx.sql" />
     <Content Include="LibModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>LibModel.edmx</DependentUpon>
@@ -274,7 +277,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

@@ -13,6 +13,7 @@ namespace RealBusinessPage
         }
 
         public virtual DbSet<AUTHOR> AUTHORs { get; set; }
+        public virtual DbSet<ACCOUNT> ACCOUNTs { get; set; }
         public virtual DbSet<BOOK> BOOKs { get; set; }
         public virtual DbSet<BORROW> BORROWs { get; set; }
         public virtual DbSet<BORROWER> BORROWERs { get; set; }
