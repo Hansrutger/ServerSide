@@ -248,3 +248,9 @@ C:\Users\Charles\Source\Repos\ServerSide\RealBusinessPage\RealBusinessPage\obj\D
 C:\Users\Charles\Source\Repos\ServerSide\RealBusinessPage\RealBusinessPage\obj\Debug\RealBusinessPage.csproj.GenerateResource.Cache
 C:\Users\Charles\Source\Repos\ServerSide\RealBusinessPage\RealBusinessPage\obj\Debug\RealBusinessPage.dll
 C:\Users\Charles\Source\Repos\ServerSide\RealBusinessPage\RealBusinessPage\obj\Debug\RealBusinessPage.pdb
+C:\Users\Charles\Source\Repos\ServerSide\RealBusinessPage\RealBusinessPage\bin\System.Net.Http.Formatting.dll
+C:\Users\Charles\Source\Repos\ServerSide\RealBusinessPage\RealBusinessPage\bin\System.Web.Http.dll
+C:\Users\Charles\Source\Repos\ServerSide\RealBusinessPage\RealBusinessPage\bin\System.Web.Http.WebHost.dll
+C:\Users\Charles\Source\Repos\ServerSide\RealBusinessPage\RealBusinessPage\bin\System.Net.Http.Formatting.xml
+C:\Users\Charles\Source\Repos\ServerSide\RealBusinessPage\RealBusinessPage\bin\System.Web.Http.xml
+C:\Users\Charles\Source\Repos\ServerSide\RealBusinessPage\RealBusinessPage\bin\System.Web.Http.WebHost.xml

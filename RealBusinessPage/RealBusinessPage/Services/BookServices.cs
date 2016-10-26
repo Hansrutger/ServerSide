@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using RealBusinessPage.Interfaces;
+using RealBusinessPage.Models;
 
 namespace RealBusinessPage.Services
 {
@@ -13,11 +14,11 @@ namespace RealBusinessPage.Services
             throw new NotImplementedException();
         }
 
-        public List<BOOK> List()
+        public List<BOOKSet> List()
         {
-            DBLibraryEntities db = new DBLibraryEntities();
-            var dbBooks = (from b in db.BOOKs orderby b.Title select b).ToList();
-            List<BOOK> bList = new List<BOOK>();
+            ServerSideEntities2 db = new ServerSideEntities2();
+            var dbBooks = (from b in db.BOOKSet orderby b.Title select b).ToList();
+            List<BOOKSet> bList = new List<BOOKSet>();
             foreach (var obj in dbBooks)
             {
                 bList.Add(obj);
@@ -25,12 +26,12 @@ namespace RealBusinessPage.Services
             return bList;
         }
 
-        public BOOK Read(string isbn)
+        public BOOKSet Read(string isbn)
         {
             throw new NotImplementedException();
         }
 
-        public void Update(string isbn, BOOK bookObj)
+        public void Update(string isbn, BOOKSet bookObj)
         {
             throw new NotImplementedException();
         }

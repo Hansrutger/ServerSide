@@ -1,7 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "Search";
-    List<RealBusinessPage.Models.Books> resultList = ViewBag.ResultSearch;
+    List<RealBusinessPage.Models.BOOKSet> resultList = ViewBag.ResultSearch;
 }
 
 <h2>Search</h2>
@@ -16,7 +16,7 @@
 <br />
 @foreach (var obj in resultList)
 {
-    <p><a href="/book/details?bookId=@obj.BookId">@obj.Title</a></p>
+    <p><a href="/book/details?bookId=@obj.ISBN">@obj.Title</a></p>
     <br />
 }
 

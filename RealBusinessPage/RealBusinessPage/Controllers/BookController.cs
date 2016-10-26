@@ -11,7 +11,7 @@ namespace RealBusinessPage.Controllers
 {
     public class BookController : Controller
     {
-        IBookServices _bookInterface;
+        BookServices _bookInterface;
         public BookController()
         {
             _bookInterface = new BookServices();
@@ -26,7 +26,8 @@ namespace RealBusinessPage.Controllers
                 return RedirectToAction("Index", "login");
             }
 
-            List<BOOK> bookList = _bookInterface.List();
+            List<BOOKSet> bookList = new List<BOOKSet>();
+            bookList = _bookInterface.List();
             ViewBag.BookList = bookList;
              
             return View();
@@ -35,42 +36,82 @@ namespace RealBusinessPage.Controllers
         // GET: book/create - admin
         public ActionResult Create()
         {
-            if (Session["level"].ToString() != "2")
+            List<AUTHORSet> AuthorList = new List<AUTHORSet>();
+            if (Session["level"].ToString() == "2")
             {
-                return RedirectToAction("Index", "main");
+                
+                try
+                {
+                    using (var db = new ServerSideEntities2())
+                    {
+                        var dbauthor = (from a in db.AUTHORSet select a).ToList();
+                        if (dbauthor!=null)
+                        {
+                            foreach (var authorObj in dbauthor )
+                            {
+                                AuthorList.Add(authorObj);
+                            }
+                        }
+                        ViewBag.AuthorList = AuthorList;
+                        return View();
+                    }
+                }
+                catch
+                {
+                    return RedirectToAction("Index", "Error");
+                }
+                
             }
-            return View();
+            
+            return RedirectToAction("Index", "main");
         }
 
         // POST: book/create - admin
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
+            char delimiterChars = ',';
             try
             {
-                String isbnInput = collection["ISBN"].ToString();
+                int isbnInput = Convert.ToInt32(collection["ISBN"].ToString());
                 String TitleInput = collection["Title"].ToString();
-                int PublicationYearInput = Convert.ToInt32(collection["PublicationYear"].ToString());
+                string PublicationYearInput = collection["PublicationYear"].ToString();
                 String DescriptionInput = collection["Description"].ToString();
-                int PagesInput = Convert.ToInt32(collection["Pages"].ToString());
-                int AuthorId = Convert.ToInt32(collection["AuthorId"].ToString());
+                int PagesInput = Convert.ToInt32(collection["Pages"].ToString());                
+                String authorIdList = collection["Authors"].ToString();
 
-                using (var db = new Model())
+                String[] aIdList = authorIdList.Split(delimiterChars);
+                using (var db = new ServerSideEntities2())
                 {
-                    var dbAuthor = (from a in db.Authors where a.AuthorId == AuthorId select a).SingleOrDefault();
-                    if (dbAuthor != null)
+                 
+
+
+                    var dbAuthor = (from a in db.BOOKSet where a.ISBN == isbnInput select a).SingleOrDefault();
+                    //var dbaubo= (from b in db.AUTHORBOOKSet)
+                    if (dbAuthor == null)
                     {
                         try
                         {
-                            Books bookObj = new Books();
+                            BOOKSet bookObj = new BOOKSet();
                             bookObj.ISBN = isbnInput;
                             bookObj.Title = TitleInput;
-                            bookObj.PubYear = PublicationYearInput;
-                            bookObj.Description = DescriptionInput;
+                            bookObj.PublicationYear = PublicationYearInput;
+                            bookObj.PublicationInfo = DescriptionInput;
                             bookObj.Pages = PagesInput;
-                            bookObj.AuthorId = dbAuthor.AuthorId;
 
-                            db.Books.Add(bookObj);
+                            foreach (string s in aIdList)
+                            {
+                                int i = Convert.ToInt32(s);
+
+                                AUTHORBOOK aubo = new AUTHORBOOK();
+                                aubo.AUTHORSetAId = i;
+                                aubo.BOOKSetISBN = isbnInput;
+
+                                db.AUTHORBOOKSet.Add(aubo);
+                            }
+
+
+                            db.BOOKSet.Add(bookObj);
                             db.SaveChanges();
                         }
                         catch (Exception e)
@@ -78,6 +119,9 @@ namespace RealBusinessPage.Controllers
                             return RedirectToAction("Error");
                         }
                     }
+
+
+
                 }
 
             }
@@ -92,20 +136,23 @@ namespace RealBusinessPage.Controllers
         // book/details/123456789
         public ActionResult Details(int bookId)
         {
-            
-        using (var db = new Model())
+            List<AUTHORBOOK> auboList = new List<AUTHORBOOK>();
+        using (var db = new ServerSideEntities2())
             {
-                var dbBook = (from b in db.Books.Include("Authors") where b.BookId == bookId select b).SingleOrDefault();
-                if (dbBook != null)
+                var dbBook = (from b in db.BOOKSet/*.Include("BOOKSet")*/ where b.ISBN == bookId select b).SingleOrDefault();
+                var dbAuth = (from c in db.AUTHORBOOKSet.Include("AUTHORSet") where c.BOOKSetISBN == bookId select c).ToList<AUTHORBOOK>();
+                //var dbauthtotList = (from d in db.AUTHORSet select d);
+                if (dbBook != null && dbAuth != null)
                 {
+                    auboList = dbAuth;
                     ViewBag.BookInfo = dbBook;
-
-                    var dbLoan = (from i in db.Loans.Include("Accounts") where i.BookId == bookId select i).SingleOrDefault();
+                    ViewBag.AUBOInfo = dbAuth;
+                    var dbLoan = (from i in db.BORROWSet.Include("BORROWERSet") where i.COPYBarcode == bookId select i).SingleOrDefault();
                     if (dbLoan != null)
                     {
                         ViewBag.BookLoan = "true";
                         ViewBag.LoanInfo = dbLoan;
-                        ViewBag.AccountInfo = dbLoan.Accounts;
+                        ViewBag.BorrowerInfo = dbLoan.BORROWERSet;
                     }
                     else
                     {
@@ -130,9 +177,9 @@ namespace RealBusinessPage.Controllers
         {
             return RedirectToAction("Index", "main");
         }
-        using (var db = new Model())
+        using (var db = new ServerSideEntities2())
             {
-                var dbBook = (from b in db.Books.Include("Authors") where b.BookId == id select b).SingleOrDefault();
+                var dbBook = (from b in db.BOOKSet.Include("AUTHORSet") where b.ISBN == id select b).SingleOrDefault();
                 if (dbBook != null)
                 {
                     ViewBag.BookInfo = dbBook;
@@ -153,17 +200,17 @@ namespace RealBusinessPage.Controllers
 
             try
             {
-                String isbnInput = collection["ISBN"].ToString();
+                int isbnInput = Convert.ToInt32( collection["ISBN"].ToString());
                 String TitleInput = collection["Title"].ToString();
-                int PublicationYearInput = Convert.ToInt32(collection["PublicationYear"].ToString());
+                String PublicationYearInput = collection["PublicationYear"].ToString();
                 String DescriptionInput = collection["Description"].ToString();
                 int PagesInput = Convert.ToInt32(collection["Pages"].ToString());
                 int AuthorId = Convert.ToInt32(collection["AuthorId"].ToString());
 
-                using (var db = new Model())
+                using (var db = new ServerSideEntities2())
                 {
-                    var dbBook = (from b in db.Books where b.BookId == id select b).SingleOrDefault();
-                    var dbAuthor = (from a in db.Authors where a.AuthorId == AuthorId select a).SingleOrDefault();
+                    var dbBook = (from b in db.BOOKSet where b.ISBN == id select b).SingleOrDefault();
+                    var dbAuthor = (from a in db.AUTHORSet where a.AId == AuthorId select a).SingleOrDefault();
 
                     if (dbBook != null && dbAuthor != null)
                     {
@@ -171,10 +218,10 @@ namespace RealBusinessPage.Controllers
                         {
                             dbBook.ISBN = isbnInput;
                             dbBook.Title = TitleInput;
-                            dbBook.PubYear = PublicationYearInput;
-                            dbBook.Description = DescriptionInput;
+                            dbBook.PublicationYear = PublicationYearInput;
+                            dbBook.PublicationInfo = DescriptionInput;
                             dbBook.Pages = PagesInput;
-                            dbBook.AuthorId = dbAuthor.AuthorId;
+                            //dbBook.AuthorId = dbAuthor.AuthorId;
 
                             db.SaveChanges();
                         }
@@ -209,21 +256,21 @@ namespace RealBusinessPage.Controllers
         {
             try
             {
-                using (var db = new Model())
+                using (var db = new ServerSideEntities2())
                 {
-                    var dbBook = (from b in db.Books where b.BookId == id select b).SingleOrDefault();
+                    var dbBook = (from b in db.BOOKSet where b.ISBN == id select b).SingleOrDefault();
                     if (dbBook != null)
                     {
-                        var dbLoan = (from i in db.Loans where i.BookId == id select i).SingleOrDefault();
+                        var dbLoan = (from i in db.BORROWSet where i.COPYBarcode == id select i).SingleOrDefault();
                         if (dbLoan != null)
                         {
-                            db.Loans.Remove(dbLoan);
-                            db.Books.Remove(dbBook);
+                            db.BORROWSet.Remove(dbLoan);
+                            db.BOOKSet.Remove(dbBook);
                             db.SaveChanges();
                         }
                         else
                         {
-                            db.Books.Remove(dbBook);
+                            db.BOOKSet.Remove(dbBook);
                             db.SaveChanges();
                         }
                     }
@@ -235,6 +282,12 @@ namespace RealBusinessPage.Controllers
                 return RedirectToAction("Error");
             }
         }
+
+        //public ActionResult addAuthor(List<AUTHORSet> aList, AUTHORSet aperson)
+        //{
+        //    aList.Add(aperson);
+        //    ViewBag.
+        //}
     }
     
 }

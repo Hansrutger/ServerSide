@@ -1,7 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "Index";
-    List<RealBusinessPage.Models.Books> resultList = ViewBag.ResultSearch;
+    List<RealBusinessPage.Models.BOOKSet> resultList = ViewBag.ResultSearch;
 }
 
 <h2>Search</h2>
@@ -18,7 +18,7 @@
 {
     foreach (var obj in resultList)
     {
-        <p><a href="/book/details?bookId=@obj.BookId">@obj.Title (<a href="/book/edit/@obj.BookId">Edit</a>, <a href="/book/remove/@obj.BookId">Delete</a>)</a></p>
+        <p><a href="/book/details?bookId=@obj.ISBN">@obj.Title (<a href="/book/edit/@obj.ISBN">Edit</a>, <a href="/book/remove/@obj.ISBN">Delete</a>)</a></p>
         <br />
     }
 
@@ -31,7 +31,7 @@ else
 {
     foreach (var obj in resultList)
     {
-        <p><a href="/book/details?bookId=@obj.BookId">@obj.Title</a><a href="/loan/Create?bookId=@obj.BookId&username=@Session["username"].ToString()">Låna</a> </p> 
+        <p><a href="/book/details?bookId=@obj.ISBN">@obj.Title</a><div><a href="/loan/Create?ISBN=@obj.ISBN &username=@Session["personId"].ToString()">Låna</a></div> </p> 
         <br />
     }
 }

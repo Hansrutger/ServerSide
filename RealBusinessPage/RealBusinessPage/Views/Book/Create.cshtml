@@ -1,6 +1,8 @@
 ﻿
 @{
     ViewBag.Title = "Create";
+    List<RealBusinessPage.Models.AUTHORSet> AuthorList = ViewBag.AuthorList;
+    List<RealBusinessPage.Models.AUTHORSet> AuthorToThisBook;
 }
 
 <h3>Create</h3>
@@ -28,10 +30,28 @@
             <td>Pages:</td>
             <td><input type="number" name="Pages" /></td>
         </tr>
-        <tr>
+        @*<tr>
             <td>AuthorId:</td>
             <td><input type="number" name="AuthorId" /></td>
-        </tr>
+        </tr>*@
+        @*@using (Html.BeginForm())
+        {*@
+            
+            @foreach (var obj in AuthorList)
+            {
+                    <tr>
+                        <td> <input type="checkbox" value="@obj.AId" name="Authors" /></td>
+                        <td> @obj.FirstName @obj.LastName </td>
+
+                        @*<td> <input type=""</td>*@               
+                    </tr>
+
+
+            }
+            <tr>
+                @*<td><input type="submit" value="Add Author(s)" /></td>*@
+            </tr>
+        @*}*@
     </table>
 
     <br />

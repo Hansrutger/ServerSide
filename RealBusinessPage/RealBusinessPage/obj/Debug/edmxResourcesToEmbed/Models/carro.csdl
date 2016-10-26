@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="carroModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="AUTHORSet">
+    <Key>
+      <PropertyRef Name="AId" />
+    </Key>
+    <Property Name="AId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="BirthYear" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="BOOKSet" Relationship="Self.AUTHORBOOK" FromRole="AUTHORSet" ToRole="BOOKSet" />
+  </EntityType>
+  <EntityType Name="BOOKSet">
+    <Key>
+      <PropertyRef Name="ISBN" />
+    </Key>
+    <Property Name="ISBN" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PublicationYear" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Pages" Type="Int32" Nullable="false" />
+    <Property Name="PublicationInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CLASSIFICATIONSignId" Type="Int32" />
+    <NavigationProperty Name="CLASSIFICATIONSet" Relationship="Self.FK_CLASSIFICATIONBOOK" FromRole="BOOKSet" ToRole="CLASSIFICATIONSet" />
+    <NavigationProperty Name="COPYSet" Relationship="Self.FK_ISBN" FromRole="BOOKSet" ToRole="COPYSet" />
+    <NavigationProperty Name="AUTHORSet" Relationship="Self.AUTHORBOOK" FromRole="BOOKSet" ToRole="AUTHORSet" />
+  </EntityType>
+  <EntityType Name="BORROWERSet">
+    <Key>
+      <PropertyRef Name="PersonId" />
+    </Key>
+    <Property Name="PersonId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="TelNo" Type="Int32" Nullable="false" />
+    <Property Name="CATEGORYCategoryId" Type="Int32" Nullable="false" />
+    <Property Name="Username" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Level" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="BORROWSet" Relationship="Self.FK_BORROWERBORROW" FromRole="BORROWERSet" ToRole="BORROWSet" />
+    <NavigationProperty Name="CATEGORYSet" Relationship="Self.FK_CATEGORYBORROWER" FromRole="BORROWERSet" ToRole="CATEGORYSet" />
+  </EntityType>
+  <EntityType Name="BORROWSet">
+    <Key>
+      <PropertyRef Name="BorrowDate" />
+    </Key>
+    <Property Name="BorrowDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ToBeReturnedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ReturnDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="COPYBarcode" Type="Int32" Nullable="false" />
+    <Property Name="BORROWERPersonId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="BORROWERSet" Relationship="Self.FK_BORROWERBORROW" FromRole="BORROWSet" ToRole="BORROWERSet" />
+    <NavigationProperty Name="COPYSet" Relationship="Self.FK_COPYBORROW" FromRole="BORROWSet" ToRole="COPYSet" />
+  </EntityType>
+  <EntityType Name="CATEGORYSet">
+    <Key>
+      <PropertyRef Name="CategoryId" />
+    </Key>
+    <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Category" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Period" Type="Int32" Nullable="false" />
+    <Property Name="PenaltyPerDay" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="BORROWERSet" Relationship="Self.FK_CATEGORYBORROWER" FromRole="CATEGORYSet" ToRole="BORROWERSet" />
+  </EntityType>
+  <EntityType Name="CLASSIFICATIONSet">
+    <Key>
+      <PropertyRef Name="SignId" />
+    </Key>
+    <Property Name="SignId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SignNum" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="BOOKSet" Relationship="Self.FK_CLASSIFICATIONBOOK" FromRole="CLASSIFICATIONSet" ToRole="BOOKSet" />
+  </EntityType>
+  <EntityType Name="COPYSet">
+    <Key>
+      <PropertyRef Name="Barcode" />
+    </Key>
+    <Property Name="Barcode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Location" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Library" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="STATUSStatusId" Type="Int32" />
+    <Property Name="BOOKISBN" Type="Int32" />
+    <NavigationProperty Name="BOOKSet" Relationship="Self.FK_ISBN" FromRole="COPYSet" ToRole="BOOKSet" />
+    <NavigationProperty Name="BORROWSet" Relationship="Self.FK_COPYBORROW" FromRole="COPYSet" ToRole="BORROWSet" />
+    <NavigationProperty Name="STATUSSet" Relationship="Self.FK_statusId" FromRole="COPYSet" ToRole="STATUSSet" />
+  </EntityType>
+  <EntityType Name="STATUSSet">
+    <Key>
+      <PropertyRef Name="StatusId" />
+    </Key>
+    <Property Name="StatusId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="COPYSet" Relationship="Self.FK_statusId" FromRole="STATUSSet" ToRole="COPYSet" />
+  </EntityType>
+  <Association Name="FK_CLASSIFICATIONBOOK">
+    <End Role="CLASSIFICATIONSet" Type="Self.CLASSIFICATIONSet" Multiplicity="0..1" />
+    <End Role="BOOKSet" Type="Self.BOOKSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CLASSIFICATIONSet">
+        <PropertyRef Name="SignId" />
+      </Principal>
+      <Dependent Role="BOOKSet">
+        <PropertyRef Name="CLASSIFICATIONSignId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ISBN">
+    <End Role="BOOKSet" Type="Self.BOOKSet" Multiplicity="0..1" />
+    <End Role="COPYSet" Type="Self.COPYSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BOOKSet">
+        <PropertyRef Name="ISBN" />
+      </Principal>
+      <Dependent Role="COPYSet">
+        <PropertyRef Name="BOOKISBN" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BORROWERBORROW">
+    <End Role="BORROWERSet" Type="Self.BORROWERSet" Multiplicity="1" />
+    <End Role="BORROWSet" Type="Self.BORROWSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BORROWERSet">
+        <PropertyRef Name="PersonId" />
+      </Principal>
+      <Dependent Role="BORROWSet">
+        <PropertyRef Name="BORROWERPersonId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CATEGORYBORROWER">
+    <End Role="CATEGORYSet" Type="Self.CATEGORYSet" Multiplicity="1" />
+    <End Role="BORROWERSet" Type="Self.BORROWERSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CATEGORYSet">
+        <PropertyRef Name="CategoryId" />
+      </Principal>
+      <Dependent Role="BORROWERSet">
+        <PropertyRef Name="CATEGORYCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_COPYBORROW">
+    <End Role="COPYSet" Type="Self.COPYSet" Multiplicity="1" />
+    <End Role="BORROWSet" Type="Self.BORROWSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="COPYSet">
+        <PropertyRef Name="Barcode" />
+      </Principal>
+      <Dependent Role="BORROWSet">
+        <PropertyRef Name="COPYBarcode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_statusId">
+    <End Role="STATUSSet" Type="Self.STATUSSet" Multiplicity="0..1" />
+    <End Role="COPYSet" Type="Self.COPYSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="STATUSSet">
+        <PropertyRef Name="StatusId" />
+      </Principal>
+      <Dependent Role="COPYSet">
+        <PropertyRef Name="STATUSStatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AUTHORBOOK">
+    <End Role="AUTHORSet" Type="Self.AUTHORSet" Multiplicity="*" />
+    <End Role="BOOKSet" Type="Self.BOOKSet" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="carroEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AUTHORSet" EntityType="Self.AUTHORSet" />
+    <EntitySet Name="BOOKSet" EntityType="Self.BOOKSet" />
+    <EntitySet Name="BORROWERSet" EntityType="Self.BORROWERSet" />
+    <EntitySet Name="BORROWSet" EntityType="Self.BORROWSet" />
+    <EntitySet Name="CATEGORYSet" EntityType="Self.CATEGORYSet" />
+    <EntitySet Name="CLASSIFICATIONSet" EntityType="Self.CLASSIFICATIONSet" />
+    <EntitySet Name="COPYSet" EntityType="Self.COPYSet" />
+    <EntitySet Name="STATUSSet" EntityType="Self.STATUSSet" />
+    <AssociationSet Name="FK_CLASSIFICATIONBOOK" Association="Self.FK_CLASSIFICATIONBOOK">
+      <End Role="CLASSIFICATIONSet" EntitySet="CLASSIFICATIONSet" />
+      <End Role="BOOKSet" EntitySet="BOOKSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ISBN" Association="Self.FK_ISBN">
+      <End Role="BOOKSet" EntitySet="BOOKSet" />
+      <End Role="COPYSet" EntitySet="COPYSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BORROWERBORROW" Association="Self.FK_BORROWERBORROW">
+      <End Role="BORROWERSet" EntitySet="BORROWERSet" />
+      <End Role="BORROWSet" EntitySet="BORROWSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CATEGORYBORROWER" Association="Self.FK_CATEGORYBORROWER">
+      <End Role="CATEGORYSet" EntitySet="CATEGORYSet" />
+      <End Role="BORROWERSet" EntitySet="BORROWERSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_COPYBORROW" Association="Self.FK_COPYBORROW">
+      <End Role="COPYSet" EntitySet="COPYSet" />
+      <End Role="BORROWSet" EntitySet="BORROWSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_statusId" Association="Self.FK_statusId">
+      <End Role="STATUSSet" EntitySet="STATUSSet" />
+      <End Role="COPYSet" EntitySet="COPYSet" />
+    </AssociationSet>
+    <AssociationSet Name="AUTHORBOOK" Association="Self.AUTHORBOOK">
+      <End Role="AUTHORSet" EntitySet="AUTHORSet" />
+      <End Role="BOOKSet" EntitySet="BOOKSet" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

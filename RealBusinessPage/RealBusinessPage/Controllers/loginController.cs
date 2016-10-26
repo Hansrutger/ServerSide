@@ -16,7 +16,7 @@ namespace RealBusinessPage.Controllers
 
             return View();
         }
-       
+
 
         public ActionResult Login(FormCollection collection)
         {
@@ -25,25 +25,27 @@ namespace RealBusinessPage.Controllers
                 string username = collection["Username"].ToString();
                 string password = collection["Password"].ToString();
 
-                using (var db = new Model())
+                using (var db = new ServerSideEntities2())
                 {
-                    var user = (from a in db.Accounts where a.Username == username select a).SingleOrDefault();
-                    if (user != null)
+                    var user = (from a in db.BORROWERSet where a.Username == username select a).SingleOrDefault();
+                    if (user != null && password == user.Password)
                     {
-                        var userLoanList = (from a in db.Loans where a.AccId == user.AccId select a).ToList();
-                        List<Loans> loanList = new List<Loans>();
-                        if (userLoanList != null)
+                        var borrower = (from a in db.BORROWSet where a.BORROWERPersonId == user.PersonId select a).SingleOrDefault();
+                        
+                        List<BORROWSet> loanList = new List<BORROWSet>();
+                        if (borrower != null)
                         {
-                            foreach(var obj in userLoanList)
-                            {
-                                loanList.Add(obj);
-                            }
+                            //foreach (var obj in borrower)
+                            //{
+                            //    loanList.Add(obj);
+                            //}
                             ViewBag.LoanList = loanList;
                         }
-                        
+
                         Session["username"] = username;
+                        Session["personId"] = user.PersonId;
                         Session["level"] = user.Level;
-                        
+
                     }
                 }
 
@@ -53,7 +55,7 @@ namespace RealBusinessPage.Controllers
             }
             catch
             {
-                return RedirectToAction("Error");
+                return RedirectToAction("Index","Error" );
             }
         }
 

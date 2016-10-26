@@ -5,14 +5,14 @@ namespace RealBusinessPage.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<RealBusinessPage.Model>
+    internal sealed class Configuration : DbMigrationsConfiguration<RealBusinessPage.Models.ServerSideEntities2>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(RealBusinessPage.Model context)
+        protected override void Seed(RealBusinessPage.Models.ServerSideEntities2 context)
         {
             //  This method will be called after migrating to the latest version.
 

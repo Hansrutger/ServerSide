@@ -14,14 +14,14 @@ namespace RealBusinessPage.Controllers
 
         public ActionResult Index()
         {
-            
-            
-            List<Books> resultList = new List<Books>();
+
+
+            List<BOOKSet> resultList = new List<BOOKSet>();
             try
             {
-                using (var db = new Model())
+                using (var db = new ServerSideEntities2())
                 {
-                    var bookObj = (from b in db.Books select b).ToList();
+                    var bookObj = (from b in db.BOOKSet select b).ToList();
 
                     if (bookObj != null)
                     {
@@ -29,7 +29,7 @@ namespace RealBusinessPage.Controllers
                         {
                             resultList.Add(b);
                         }
-                        
+
                         ViewBag.ResultSearch = resultList;
                         return View();
                     }
@@ -49,15 +49,15 @@ namespace RealBusinessPage.Controllers
         public ActionResult Search(FormCollection collection)
         {
 
-            List<Books> bookList = new List<Books>();
+            List<BOOKSet> bookList = new List<BOOKSet>();
             try
             {
                 String s = collection["searchText"].ToString();
 
-                using (var db = new Model())
+                using (var db = new ServerSideEntities2())
                 {
-                    var authorObj = (from a in db.Authors where (a.FirstName.Contains(s) || a.LastName.Contains(s)) select a).ToList();
-                    var bookObj = (from b in db.Books where b.Title.Contains(s) select b).ToList();
+                    var authorObj = (from a in db.AUTHORSet where (a.FirstName.Contains(s) || a.LastName.Contains(s)) select a).ToList();
+                    var bookObj = (from b in db.BOOKSet where b.Title.Contains(s) select b).ToList();
 
                     if (bookObj != null && bookObj.Count != 0)
                     {
@@ -73,12 +73,12 @@ namespace RealBusinessPage.Controllers
                     {
                         foreach (var a in authorObj)
                         {
-                            var newBookSearch = (from b in db.Books where b.AuthorId == a.AuthorId select b).ToList();
-                            if(newBookSearch != null)
+                            var newBookSearch = (from b in db.AUTHORBOOKSet where b.AUTHORSetAId == a.AId select b).ToList();
+                            if (newBookSearch != null)
                             {
                                 foreach (var b in newBookSearch)
                                 {
-                                    bookList.Add(b);
+                                    bookList.Add(b.BOOKSet);
                                 }
                             }
                         }

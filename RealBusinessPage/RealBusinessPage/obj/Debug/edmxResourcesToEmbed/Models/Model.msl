@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="ServerSideEntities2">
+    <EntitySetMapping Name="AUTHORSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.AUTHORSet)">
+        <MappingFragment StoreEntitySet="AUTHORSet">
+          <ScalarProperty Name="AId" ColumnName="AId" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="BirthYear" ColumnName="BirthYear" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BOOKSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.BOOKSet)">
+        <MappingFragment StoreEntitySet="BOOKSet">
+          <ScalarProperty Name="ISBN" ColumnName="ISBN" />
+          <ScalarProperty Name="PublicationYear" ColumnName="PublicationYear" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Pages" ColumnName="Pages" />
+          <ScalarProperty Name="PublicationInfo" ColumnName="PublicationInfo" />
+          <ScalarProperty Name="CLASSIFICATIONSignId" ColumnName="CLASSIFICATIONSignId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BORROWERSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.BORROWERSet)">
+        <MappingFragment StoreEntitySet="BORROWERSet">
+          <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="TelNo" ColumnName="TelNo" />
+          <ScalarProperty Name="CATEGORYCategoryId" ColumnName="CATEGORYCategoryId" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Level" ColumnName="Level" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BORROWSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.BORROWSet)">
+        <MappingFragment StoreEntitySet="BORROWSet">
+          <ScalarProperty Name="BorrowDate" ColumnName="BorrowDate" />
+          <ScalarProperty Name="ToBeReturnedDate" ColumnName="ToBeReturnedDate" />
+          <ScalarProperty Name="ReturnDate" ColumnName="ReturnDate" />
+          <ScalarProperty Name="COPYBarcode" ColumnName="COPYBarcode" />
+          <ScalarProperty Name="BORROWERPersonId" ColumnName="BORROWERPersonId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CATEGORYSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.CATEGORYSet)">
+        <MappingFragment StoreEntitySet="CATEGORYSet">
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+          <ScalarProperty Name="Category" ColumnName="Category" />
+          <ScalarProperty Name="Period" ColumnName="Period" />
+          <ScalarProperty Name="PenaltyPerDay" ColumnName="PenaltyPerDay" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CLASSIFICATIONSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.CLASSIFICATIONSet)">
+        <MappingFragment StoreEntitySet="CLASSIFICATIONSet">
+          <ScalarProperty Name="SignId" ColumnName="SignId" />
+          <ScalarProperty Name="SignNum" ColumnName="SignNum" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="COPYSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.COPYSet)">
+        <MappingFragment StoreEntitySet="COPYSet">
+          <ScalarProperty Name="Barcode" ColumnName="Barcode" />
+          <ScalarProperty Name="Location" ColumnName="Location" />
+          <ScalarProperty Name="Library" ColumnName="Library" />
+          <ScalarProperty Name="STATUSStatusId" ColumnName="STATUSStatusId" />
+          <ScalarProperty Name="BOOKISBN" ColumnName="BOOKISBN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="STATUSSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.STATUSSet)">
+        <MappingFragment StoreEntitySet="STATUSSet">
+          <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+          <ScalarProperty Name="status" ColumnName="status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AUTHORBOOKSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.AUTHORBOOK)">
+        <MappingFragment StoreEntitySet="AUTHORBOOKSet">
+          <ScalarProperty Name="AUTHORSetAId" ColumnName="AUTHORSetAId" />
+          <ScalarProperty Name="BOOKSetISBN" ColumnName="BOOKSetISBN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

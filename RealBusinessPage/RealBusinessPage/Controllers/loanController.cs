@@ -12,7 +12,7 @@ namespace RealBusinessPage.Controllers
         // GET: loan
         public ActionResult Index()
         {
-             
+
 
             return View();
         }
@@ -20,18 +20,18 @@ namespace RealBusinessPage.Controllers
         // GET: loan/Details/hasse - om admin så vilken som helst användare, annars bara sig själv
         public ActionResult Details(string username)
         {
-            if (Session["username"] == null)
+            if (Session["level"].ToString() != "2")
             {
-                return RedirectToAction("Index", "login");
+                return RedirectToAction("NoAuthrization", "Error");
             }
 
-            if(Session["level"].ToString() == "2")
+            if (Session["level"].ToString() == "2")
             {
-                using (var db = new Model())
+                using (var db = new ServerSideEntities2())
                 {
-                    var dbAccounts = db.Accounts.ToList();
-                    List<Accounts> accountList = new List<Accounts>();
-                    foreach(var obj in dbAccounts)
+                    var dbAccounts = db.BORROWERSet.ToList();
+                    List<BORROWERSet> accountList = new List<BORROWERSet>();
+                    foreach (var obj in dbAccounts)
                     {
                         accountList.Add(obj);
                     }
@@ -44,10 +44,10 @@ namespace RealBusinessPage.Controllers
 
 
 
-            using (var db = new Model())
+            using (var db = new ServerSideEntities2())
             {
-                var dbLoan = (from i in db.Loans.Include("Accounts").Include("Books") where i.Accounts.Username == username select i).ToList();
-                List<Loans> loanList = new List<Loans>();
+                var dbLoan = (from i in db.BORROWSet.Include("BORROWERSet").Include("BOOKSet") where i.BORROWERSet.Username == username select i).ToList();
+                List<BORROWSet> loanList = new List<BORROWSet>();
                 foreach (var obj in dbLoan)
                 {
                     loanList.Add(obj);
@@ -61,12 +61,12 @@ namespace RealBusinessPage.Controllers
         public ActionResult Renew(int loanId)
         {
             DateTime newDate = DateTime.Now.AddDays(20);
-            using (var db = new Model())
+            using (var db = new ServerSideEntities2())
             {
-                var dbLoan = (from i in db.Loans where i.LoanId == loanId select i).SingleOrDefault();
+                var dbLoan = (from i in db.BORROWSet where i.BORROWERPersonId == loanId select i).SingleOrDefault();
                 if (dbLoan != null)
                 {
-                    dbLoan.Date = newDate.ToString();
+                    dbLoan.ToBeReturnedDate = newDate;
                     db.SaveChanges();
                 }
             }
@@ -75,37 +75,40 @@ namespace RealBusinessPage.Controllers
         }
 
         // GET: loan/Create
-        public ActionResult Create(int bookId, string username)
+        public ActionResult Create(int ISBN, string username)
         {
-            using (var db = new Model())
+            int _username = Convert.ToInt32(username);
+            using (var db = new ServerSideEntities2())
             {
-                var dbBook = (from b in db.Books where b.BookId == bookId select b).SingleOrDefault();
+                var dbBook = (from b in db.COPYSet where b.BOOKISBN == ISBN select b).ToList();
                 if (dbBook != null)
-                {
-                    var dbLoan = (from i in db.Loans where i.BookId == bookId select i).SingleOrDefault();
+                {                    
+                    DateTime todayDate = DateTime.Now;
+                    var dbLoan = (from i in db.BORROWSet where i.BORROWERPersonId == _username select i).SingleOrDefault();
                     if (dbLoan != null)
                     {
-                        DateTime previousDate = Convert.ToDateTime(dbLoan.Date);
-                        DateTime todayDate = DateTime.Now;
+                        DateTime previousDate = Convert.ToDateTime(dbLoan.ToBeReturnedDate);
+                        
 
                         Boolean dateExpression = Convert.ToBoolean(DateTime.Compare(previousDate, todayDate));
 
                         if (!dateExpression)
                         {
-                            db.Loans.Remove(dbLoan);
+                            db.BORROWSet.Remove(dbLoan);
                             db.SaveChanges();
 
-                            var dbAccount = (from a in db.Accounts where a.Username == username select a).SingleOrDefault();
+                            var dbAccount = (from a in db.BORROWERSet where a.PersonId == _username select a).SingleOrDefault();
                             if (dbAccount != null)
                             {
                                 DateTime date = DateTime.Now.AddDays(20);
 
-                                Loans loanObj = new Loans();
-                                loanObj.Date = date.ToString();
-                                loanObj.BookId = bookId;
-                                loanObj.AccId = dbAccount.AccId;
+                                BORROWSet loanObj = new BORROWSet();
+                                loanObj.ToBeReturnedDate = date;
+                                loanObj.BorrowDate = todayDate;
+                                loanObj.BORROWERPersonId = _username;
+                                //loanObj.COPYBarcode = ISBN;
 
-                                db.Loans.Add(loanObj);
+                                db.BORROWSet.Add(loanObj);
                                 db.SaveChanges();
 
                                 ViewBag.BookInfo = dbBook;
@@ -122,21 +125,23 @@ namespace RealBusinessPage.Controllers
                             return View("failCreate");
                         }
 
-                       
+
                     }
                     else
                     {
-                        var dbAccount = (from a in db.Accounts where a.Username == username select a).SingleOrDefault();
-                        if (dbAccount != null)
+                        //var dbAccount = (from a in db.BORROWSet where a.BORROWERPersonId == _username select a).SingleOrDefault();
+                        if (dbLoan == null)
                         {
                             DateTime date = DateTime.Now.AddDays(20);
 
-                            Loans loanObj = new Loans();
-                            loanObj.Date = date.ToString();
-                            loanObj.BookId = bookId;
-                            loanObj.AccId = dbAccount.AccId;
+                            BORROWSet loanObj = new BORROWSet();
+                            loanObj.ToBeReturnedDate = date;
+                            loanObj.BorrowDate = todayDate;
+                            loanObj.BORROWERPersonId = _username;
+                            //loanObj.COPYBarcode=
+                            //loanObj.COPYBarcode = barcode;
 
-                            db.Loans.Add(loanObj);
+                            db.BORROWSet.Add(loanObj);
                             db.SaveChanges();
 
                             ViewBag.BookInfo = dbBook;
@@ -156,17 +161,18 @@ namespace RealBusinessPage.Controllers
             }
         }
 
-        
+
 
         // GET: loan/Delete/5
         public ActionResult Delete(int id)
         {
-            using (var db = new Model())
+            using (var db = new ServerSideEntities2())
             {
-                var dbLoan = (from i in db.Loans where i.LoanId == id select i).SingleOrDefault();
-                if (dbLoan != null)
+                var dbLoan = (from i in db.BORROWSet where i.BORROWERPersonId == id select i).SingleOrDefault();
+                var dbCopy = (from a in db.COPYSet where a.Barcode == dbLoan.COPYBarcode select a).SingleOrDefault();
+                if (dbLoan != null && dbCopy != null)
                 {
-                    db.Loans.Remove(dbLoan);
+                    db.BORROWSet.Remove(dbLoan);
                     db.SaveChanges();
                 }
                 else
@@ -188,9 +194,9 @@ namespace RealBusinessPage.Controllers
             try
             {
                 String username = collection["username"].ToString();
-                using (var db = new Model())
+                using (var db = new ServerSideEntities2())
                 {
-                    var dbUser = (from u in db.Accounts where u.Username == username select u).SingleOrDefault();
+                    var dbUser = (from u in db.BORROWERSet where u.Username == username select u).SingleOrDefault();
                     if (dbUser != null)
                     {
                         return RedirectToAction("Create", new { bookId = id, username = username });

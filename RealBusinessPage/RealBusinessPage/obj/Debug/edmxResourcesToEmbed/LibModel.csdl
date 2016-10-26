@@ -1,5 +1,54 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="DBLibraryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="DBLibraryEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="ACCOUNTs" EntityType="DBLibraryModel.ACCOUNT" />
+    <EntitySet Name="AUTHORs" EntityType="DBLibraryModel.AUTHOR" />
+    <EntitySet Name="BOOKs" EntityType="DBLibraryModel.BOOK" />
+    <EntitySet Name="BORROWERs" EntityType="DBLibraryModel.BORROWER" />
+    <EntitySet Name="BORROWs" EntityType="DBLibraryModel.BORROW" />
+    <EntitySet Name="CATEGORies" EntityType="DBLibraryModel.CATEGORy" />
+    <EntitySet Name="CLASSIFICATIONs" EntityType="DBLibraryModel.CLASSIFICATION" />
+    <EntitySet Name="COPies" EntityType="DBLibraryModel.COPy" />
+    <EntitySet Name="STATUS" EntityType="DBLibraryModel.STATUS" />
+    <AssociationSet Name="FK_BOOK_CLASSIFICATION" Association="DBLibraryModel.FK_BOOK_CLASSIFICATION">
+      <End Role="CLASSIFICATION" EntitySet="CLASSIFICATIONs" />
+      <End Role="BOOK" EntitySet="BOOKs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_COPY_BOOK" Association="DBLibraryModel.FK_COPY_BOOK">
+      <End Role="BOOK" EntitySet="BOOKs" />
+      <End Role="COPy" EntitySet="COPies" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BORROW_BORROWER" Association="DBLibraryModel.FK_BORROW_BORROWER">
+      <End Role="BORROWER" EntitySet="BORROWERs" />
+      <End Role="BORROW" EntitySet="BORROWs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BORROWER_CATEGORY" Association="DBLibraryModel.FK_BORROWER_CATEGORY">
+      <End Role="CATEGORy" EntitySet="CATEGORies" />
+      <End Role="BORROWER" EntitySet="BORROWERs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BORROW_COPY" Association="DBLibraryModel.FK_BORROW_COPY">
+      <End Role="COPy" EntitySet="COPies" />
+      <End Role="BORROW" EntitySet="BORROWs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_COPY_STATUS" Association="DBLibraryModel.FK_COPY_STATUS">
+      <End Role="STATUS" EntitySet="STATUS" />
+      <End Role="COPy" EntitySet="COPies" />
+    </AssociationSet>
+    <AssociationSet Name="BOOK_AUTHOR" Association="DBLibraryModel.BOOK_AUTHOR">
+      <End Role="AUTHOR" EntitySet="AUTHORs" />
+      <End Role="BOOK" EntitySet="BOOKs" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="ACCOUNT">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Level" Type="Int16" Nullable="false" />
+    <Property Name="BORROWER_PersonId" Type="String" Nullable="false" MaxLength="13" FixedLength="false" Unicode="true" />
+  </EntityType>
   <EntityType Name="AUTHOR">
     <Key>
       <PropertyRef Name="Aid" />
@@ -8,21 +57,34 @@
     <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="BirthYear" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="BOOKs" Relationship="Self.BOOK_AUTHOR" FromRole="AUTHOR" ToRole="BOOK" />
+    <NavigationProperty Name="BOOKs" Relationship="DBLibraryModel.BOOK_AUTHOR" FromRole="AUTHOR" ToRole="BOOK" />
   </EntityType>
   <EntityType Name="BOOK">
     <Key>
       <PropertyRef Name="ISBN" />
     </Key>
-    <Property Name="ISBN" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ISBN" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
     <Property Name="Title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
     <Property Name="SignId" Type="Int32" />
     <Property Name="PublicationYear" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
     <Property Name="publicationinfo" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
     <Property Name="pages" Type="Int16" />
-    <NavigationProperty Name="CLASSIFICATION" Relationship="Self.FK_BOOK_CLASSIFICATION" FromRole="BOOK" ToRole="CLASSIFICATION" />
-    <NavigationProperty Name="COPies" Relationship="Self.FK_COPY_BOOK" FromRole="BOOK" ToRole="COPY" />
-    <NavigationProperty Name="AUTHORs" Relationship="Self.BOOK_AUTHOR" FromRole="BOOK" ToRole="AUTHOR" />
+    <NavigationProperty Name="CLASSIFICATION" Relationship="DBLibraryModel.FK_BOOK_CLASSIFICATION" FromRole="BOOK" ToRole="CLASSIFICATION" />
+    <NavigationProperty Name="COPies" Relationship="DBLibraryModel.FK_COPY_BOOK" FromRole="BOOK" ToRole="COPy" />
+    <NavigationProperty Name="AUTHORs" Relationship="DBLibraryModel.BOOK_AUTHOR" FromRole="BOOK" ToRole="AUTHOR" />
+  </EntityType>
+  <EntityType Name="BORROWER">
+    <Key>
+      <PropertyRef Name="PersonId" />
+    </Key>
+    <Property Name="PersonId" Type="String" Nullable="false" MaxLength="13" FixedLength="false" Unicode="true" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Telno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CategoryId" Type="Int32" />
+    <NavigationProperty Name="BORROWs" Relationship="DBLibraryModel.FK_BORROW_BORROWER" FromRole="BORROWER" ToRole="BORROW" />
+    <NavigationProperty Name="CATEGORy" Relationship="DBLibraryModel.FK_BORROWER_CATEGORY" FromRole="BORROWER" ToRole="CATEGORy" />
   </EntityType>
   <EntityType Name="BORROW">
     <Key>
@@ -30,29 +92,15 @@
       <PropertyRef Name="PersonId" />
       <PropertyRef Name="BorrowDate" />
     </Key>
-    <Property Name="Barcode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="PersonId" Type="String" MaxLength="13" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Barcode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="PersonId" Type="String" Nullable="false" MaxLength="13" FixedLength="false" Unicode="true" />
     <Property Name="BorrowDate" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="ToBeReturnedDate" Type="DateTime" Precision="3" />
     <Property Name="ReturnDate" Type="DateTime" Precision="3" />
-    <NavigationProperty Name="BORROWER" Relationship="Self.FK_BORROW_BORROWER" FromRole="BORROW" ToRole="BORROWER" />
-    <NavigationProperty Name="COPY" Relationship="Self.FK_BORROW_COPY" FromRole="BORROW" ToRole="COPY" />
+    <NavigationProperty Name="BORROWER" Relationship="DBLibraryModel.FK_BORROW_BORROWER" FromRole="BORROW" ToRole="BORROWER" />
+    <NavigationProperty Name="COPy" Relationship="DBLibraryModel.FK_BORROW_COPY" FromRole="BORROW" ToRole="COPy" />
   </EntityType>
-  <EntityType Name="BORROWER">
-    <Key>
-      <PropertyRef Name="PersonId" />
-    </Key>
-    <Property Name="PersonId" Type="String" MaxLength="13" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Telno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="CategoryId" Type="Int32" />
-    <NavigationProperty Name="BORROWs" Relationship="Self.FK_BORROW_BORROWER" FromRole="BORROWER" ToRole="BORROW" />
-    <NavigationProperty Name="CATEGORY" Relationship="Self.FK_BORROWER_CATEGORY" FromRole="BORROWER" ToRole="CATEGORY" />
-    <NavigationProperty Name="ACCOUNT" Relationship="DBLibraryModel.ACCOUNTBORROWER" FromRole="BORROWER" ToRole="ACCOUNT" />
-  </EntityType>
-  <EntityType Name="CATEGORY">
+  <EntityType Name="CATEGORy">
     <Key>
       <PropertyRef Name="CatergoryId" />
     </Key>
@@ -60,7 +108,7 @@
     <Property Name="Category1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Period" Type="Int16" />
     <Property Name="Penaltyperday" Type="Int32" />
-    <NavigationProperty Name="BORROWERs" Relationship="Self.FK_BORROWER_CATEGORY" FromRole="CATEGORY" ToRole="BORROWER" />
+    <NavigationProperty Name="BORROWERs" Relationship="DBLibraryModel.FK_BORROWER_CATEGORY" FromRole="CATEGORy" ToRole="BORROWER" />
   </EntityType>
   <EntityType Name="CLASSIFICATION">
     <Key>
@@ -69,20 +117,20 @@
     <Property Name="SignId" Type="Int32" Nullable="false" />
     <Property Name="Signum" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="BOOKs" Relationship="Self.FK_BOOK_CLASSIFICATION" FromRole="CLASSIFICATION" ToRole="BOOK" />
+    <NavigationProperty Name="BOOKs" Relationship="DBLibraryModel.FK_BOOK_CLASSIFICATION" FromRole="CLASSIFICATION" ToRole="BOOK" />
   </EntityType>
-  <EntityType Name="COPY">
+  <EntityType Name="COPy">
     <Key>
       <PropertyRef Name="Barcode" />
     </Key>
-    <Property Name="Barcode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Barcode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
     <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="StatusId" Type="Int32" />
     <Property Name="ISBN" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
     <Property Name="library" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="BOOK" Relationship="Self.FK_COPY_BOOK" FromRole="COPY" ToRole="BOOK" />
-    <NavigationProperty Name="BORROWs" Relationship="Self.FK_BORROW_COPY" FromRole="COPY" ToRole="BORROW" />
-    <NavigationProperty Name="STATUS" Relationship="Self.FK_COPY_STATUS" FromRole="COPY" ToRole="STATUS" />
+    <NavigationProperty Name="BOOK" Relationship="DBLibraryModel.FK_COPY_BOOK" FromRole="COPy" ToRole="BOOK" />
+    <NavigationProperty Name="BORROWs" Relationship="DBLibraryModel.FK_BORROW_COPY" FromRole="COPy" ToRole="BORROW" />
+    <NavigationProperty Name="STATUS" Relationship="DBLibraryModel.FK_COPY_STATUS" FromRole="COPy" ToRole="STATUS" />
   </EntityType>
   <EntityType Name="STATUS">
     <Key>
@@ -90,11 +138,11 @@
     </Key>
     <Property Name="statusid" Type="Int32" Nullable="false" />
     <Property Name="status1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="COPies" Relationship="Self.FK_COPY_STATUS" FromRole="STATUS" ToRole="COPY" />
+    <NavigationProperty Name="COPies" Relationship="DBLibraryModel.FK_COPY_STATUS" FromRole="STATUS" ToRole="COPy" />
   </EntityType>
   <Association Name="FK_BOOK_CLASSIFICATION">
-    <End Role="CLASSIFICATION" Type="Self.CLASSIFICATION" Multiplicity="0..1" />
-    <End Role="BOOK" Type="Self.BOOK" Multiplicity="*" />
+    <End Type="DBLibraryModel.CLASSIFICATION" Role="CLASSIFICATION" Multiplicity="0..1" />
+    <End Type="DBLibraryModel.BOOK" Role="BOOK" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="CLASSIFICATION">
         <PropertyRef Name="SignId" />
@@ -105,20 +153,20 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_COPY_BOOK">
-    <End Role="BOOK" Type="Self.BOOK" Multiplicity="0..1" />
-    <End Role="COPY" Type="Self.COPY" Multiplicity="*" />
+    <End Type="DBLibraryModel.BOOK" Role="BOOK" Multiplicity="0..1" />
+    <End Type="DBLibraryModel.COPy" Role="COPy" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="BOOK">
         <PropertyRef Name="ISBN" />
       </Principal>
-      <Dependent Role="COPY">
+      <Dependent Role="COPy">
         <PropertyRef Name="ISBN" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_BORROW_BORROWER">
-    <End Role="BORROWER" Type="Self.BORROWER" Multiplicity="1" />
-    <End Role="BORROW" Type="Self.BORROW" Multiplicity="*" />
+    <End Type="DBLibraryModel.BORROWER" Role="BORROWER" Multiplicity="1" />
+    <End Type="DBLibraryModel.BORROW" Role="BORROW" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="BORROWER">
         <PropertyRef Name="PersonId" />
@@ -128,23 +176,11 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_BORROW_COPY">
-    <End Role="COPY" Type="Self.COPY" Multiplicity="1" />
-    <End Role="BORROW" Type="Self.BORROW" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="COPY">
-        <PropertyRef Name="Barcode" />
-      </Principal>
-      <Dependent Role="BORROW">
-        <PropertyRef Name="Barcode" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_BORROWER_CATEGORY">
-    <End Role="CATEGORY" Type="Self.CATEGORY" Multiplicity="0..1" />
-    <End Role="BORROWER" Type="Self.BORROWER" Multiplicity="*" />
+    <End Type="DBLibraryModel.CATEGORy" Role="CATEGORy" Multiplicity="0..1" />
+    <End Type="DBLibraryModel.BORROWER" Role="BORROWER" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="CATEGORY">
+      <Principal Role="CATEGORy">
         <PropertyRef Name="CatergoryId" />
       </Principal>
       <Dependent Role="BORROWER">
@@ -152,77 +188,32 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_BORROW_COPY">
+    <End Type="DBLibraryModel.COPy" Role="COPy" Multiplicity="1" />
+    <End Type="DBLibraryModel.BORROW" Role="BORROW" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="COPy">
+        <PropertyRef Name="Barcode" />
+      </Principal>
+      <Dependent Role="BORROW">
+        <PropertyRef Name="Barcode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_COPY_STATUS">
-    <End Role="STATUS" Type="Self.STATUS" Multiplicity="0..1" />
-    <End Role="COPY" Type="Self.COPY" Multiplicity="*" />
+    <End Type="DBLibraryModel.STATUS" Role="STATUS" Multiplicity="0..1" />
+    <End Type="DBLibraryModel.COPy" Role="COPy" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="STATUS">
         <PropertyRef Name="statusid" />
       </Principal>
-      <Dependent Role="COPY">
+      <Dependent Role="COPy">
         <PropertyRef Name="StatusId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="BOOK_AUTHOR">
-    <End Role="AUTHOR" Type="Self.AUTHOR" Multiplicity="*" />
-    <End Role="BOOK" Type="Self.BOOK" Multiplicity="*" />
-  </Association>
-  <EntityContainer Name="DBLibraryEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="AUTHORs" EntityType="Self.AUTHOR" />
-    <EntitySet Name="BOOKs" EntityType="Self.BOOK" />
-    <EntitySet Name="BORROWs" EntityType="Self.BORROW" />
-    <EntitySet Name="BORROWERs" EntityType="Self.BORROWER" />
-    <EntitySet Name="CATEGORies" EntityType="Self.CATEGORY" />
-    <EntitySet Name="CLASSIFICATIONs" EntityType="Self.CLASSIFICATION" />
-    <EntitySet Name="COPies" EntityType="Self.COPY" />
-    <EntitySet Name="STATUS" EntityType="Self.STATUS" />
-    <AssociationSet Name="FK_BOOK_CLASSIFICATION" Association="Self.FK_BOOK_CLASSIFICATION">
-      <End Role="CLASSIFICATION" EntitySet="CLASSIFICATIONs" />
-      <End Role="BOOK" EntitySet="BOOKs" />
-    </AssociationSet>
-    <AssociationSet Name="FK_COPY_BOOK" Association="Self.FK_COPY_BOOK">
-      <End Role="BOOK" EntitySet="BOOKs" />
-      <End Role="COPY" EntitySet="COPies" />
-    </AssociationSet>
-    <AssociationSet Name="FK_BORROW_BORROWER" Association="Self.FK_BORROW_BORROWER">
-      <End Role="BORROWER" EntitySet="BORROWERs" />
-      <End Role="BORROW" EntitySet="BORROWs" />
-    </AssociationSet>
-    <AssociationSet Name="FK_BORROW_COPY" Association="Self.FK_BORROW_COPY">
-      <End Role="COPY" EntitySet="COPies" />
-      <End Role="BORROW" EntitySet="BORROWs" />
-    </AssociationSet>
-    <AssociationSet Name="FK_BORROWER_CATEGORY" Association="Self.FK_BORROWER_CATEGORY">
-      <End Role="CATEGORY" EntitySet="CATEGORies" />
-      <End Role="BORROWER" EntitySet="BORROWERs" />
-    </AssociationSet>
-    <AssociationSet Name="FK_COPY_STATUS" Association="Self.FK_COPY_STATUS">
-      <End Role="STATUS" EntitySet="STATUS" />
-      <End Role="COPY" EntitySet="COPies" />
-    </AssociationSet>
-    <AssociationSet Name="BOOK_AUTHOR" Association="Self.BOOK_AUTHOR">
-      <End Role="AUTHOR" EntitySet="AUTHORs" />
-      <End Role="BOOK" EntitySet="BOOKs" />
-    </AssociationSet>
-    <EntitySet Name="ACCOUNTs" EntityType="DBLibraryModel.ACCOUNT" />
-    <AssociationSet Name="ACCOUNTBORROWER" Association="DBLibraryModel.ACCOUNTBORROWER">
-      <End Role="ACCOUNT" EntitySet="ACCOUNTs" />
-      <End Role="BORROWER" EntitySet="BORROWERs" />
-    </AssociationSet>
-  </EntityContainer>
-  <EntityType Name="ACCOUNT">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Username" Type="String" Nullable="false" />
-    <Property Name="Password" Type="String" Nullable="false" />
-    <Property Name="Level" Type="Int16" Nullable="false" />
-    <NavigationProperty Name="BORROWER" Relationship="DBLibraryModel.ACCOUNTBORROWER" FromRole="ACCOUNT" ToRole="BORROWER" />
-  </EntityType>
-  <Association Name="ACCOUNTBORROWER">
-    <End Type="DBLibraryModel.ACCOUNT" Role="ACCOUNT" Multiplicity="1" />
-    <End Type="DBLibraryModel.BORROWER" Role="BORROWER" Multiplicity="1" />
+    <End Type="DBLibraryModel.AUTHOR" Role="AUTHOR" Multiplicity="*" />
+    <End Type="DBLibraryModel.BOOK" Role="BOOK" Multiplicity="*" />
   </Association>
 </Schema>

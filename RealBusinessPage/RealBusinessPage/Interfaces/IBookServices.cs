@@ -8,9 +8,5 @@ namespace RealBusinessPage.Interfaces
 {
     public interface IBookServices
     {
-        List<BOOK> List();
-        BOOK Read(string isbn);
-        void Update(string isbn, BOOK bookObj);
-        void Delete(string isbn);
     }
 }

@@ -1,15 +1,12 @@
 ﻿using RealBusinessPage.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace RealBusinessPage.Controllers
 {
     public class AccountController : Controller
     {
-        
             // GET: account
             public ActionResult Index()
             {
@@ -18,10 +15,10 @@ namespace RealBusinessPage.Controllers
                 {
                     return RedirectToAction("Index", "main");
                 }
-               
-                using (var db = new Model())
+               //vad gör detta?
+                using (var db = new ServerSideEntities2())
                 {
-                    var dbUser = (from u in db.ACCOUNTs select u).ToList();
+                    var dbUser = (from u in db.BORROWERSet select u).ToList();
                     if (dbUser != null)
                     {
                         ViewBag.UserList = dbUser;
@@ -33,15 +30,19 @@ namespace RealBusinessPage.Controllers
             // GET: account/Details/5 - admin
             public ActionResult Details(string Username)
             {
+            if (Session["level"].ToString() != "2")
+            {
+                return RedirectToAction("NoAuthrization", "Error");
+            }
 
             if (Session["level"].ToString() != "2")
             {
                 return RedirectToAction("Index", "main");
             }
 
-            using (var db = new Model())
+            using (var db = new ServerSideEntities2())
                 {
-                    var dbUser = (from a in db.ACCOUNTs where a.Username == Username select a).SingleOrDefault();
+                    var dbUser = (from a in db.BORROWERSet where a.Username == Username select a).SingleOrDefault();
                     if (dbUser != null)
                     {
                         ViewBag.UserInfo = dbUser;
@@ -64,7 +65,11 @@ namespace RealBusinessPage.Controllers
             [HttpPost]
             public ActionResult Create(FormCollection collection)
             {
-                try
+            if (Session["level"].ToString() != "2")
+            {
+                return RedirectToAction("NoAuthrization", "Error");
+            }
+            try
                 {
                     String UsernameInput = collection["Username"].ToString();
                     String PasswordInput = collection["Password"].ToString();
@@ -73,34 +78,46 @@ namespace RealBusinessPage.Controllers
                     String AddressInput = collection["Address"].ToString();
                     int TelNoInput = Convert.ToInt32(collection["TelNo"].ToString());
                     int LevelInput = Convert.ToInt32(collection["Level"].ToString());
-
-                    using (var db = new Model())
+                   
+                    using (var db = new ServerSideEntities2())
                     {
-                        var dbUser = (from u in db.ACCOUNTs where u.Username == UsernameInput select u).SingleOrDefault();
+                        var dbUser = (from u in db.BORROWERSet where u.Username == UsernameInput select u).SingleOrDefault();
                         if (dbUser == null)
                         {
-                            Accounts userObj = new Accounts();
+
+                        CATEGORYSet newCat = new CATEGORYSet();
+                        newCat.Category = "adult";
+                        newCat.Period = 0;
+                        newCat.PenaltyPerDay = 100;
+                        
+                            BORROWERSet userObj = new BORROWERSet();                            
                             userObj.Username = UsernameInput;
                             userObj.Password = PasswordInput;
+                            userObj.Level = LevelInput;
+                            
+                            //BORROWERSet userBorrower = new BORROWERSet();
                             userObj.FirstName = FirstNameInput;
                             userObj.LastName = LastNameInput;
                             userObj.Address = AddressInput;
                             userObj.TelNo = TelNoInput;
-                            userObj.Level = LevelInput;
+                            userObj.CATEGORYSet = newCat;
 
-                         //   db.ACCOUNTs.Add(userObj);
+
+                            db.BORROWERSet.Add(userObj);
+                           // db.Entry(userObj).State = System.Data.Entity.EntityState.Added;
                             db.SaveChanges();
                         }
                         else
                         {
-                            return View("failCreate");
+                            return View("Error","failCreate");
                         }
                     }
                     return RedirectToAction("Index");
                 }
-                catch
+                catch(Exception e)
                 {
-                    return RedirectToAction("Error");
+                    ViewBag.Error = e;
+                    return RedirectToAction("Index","Error");
                 }
             }
 
@@ -111,9 +128,9 @@ namespace RealBusinessPage.Controllers
             {
                 return RedirectToAction("Index", "main");
             }
-            using (var db = new Model())
+            using (var db = new ServerSideEntities2())
                 {
-                    var dbAccount = (from a in db.ACCOUNTs where a.AccId == id select a).SingleOrDefault();
+                    var dbAccount = (from a in db.BORROWERSet where a.PersonId == id select a).SingleOrDefault();
                     if (dbAccount != null)
                     {
                         ViewBag.AccountInfo = dbAccount;
@@ -130,9 +147,10 @@ namespace RealBusinessPage.Controllers
             [HttpPost]
             public ActionResult Edit(int id, FormCollection collection)
             {
+
             if (Session["level"].ToString() != "2")
             {
-                return RedirectToAction("Index", "main");
+                return RedirectToAction("NoAuthrization", "Error");
             }
             try
                 {
@@ -142,19 +160,20 @@ namespace RealBusinessPage.Controllers
                     String LastNameInput = collection["LastName"].ToString();
                     String AddressInput = collection["Address"].ToString();
                     int TelNoInput = Convert.ToInt32(collection["TelNo"].ToString());
-                    int LevelInput = Convert.ToInt32(collection["Level"].ToString());
+                    int LevelInput = Convert.ToInt16(collection["Level"].ToString());
 
-                    using (var db = new Model())
+                    using (var db = new ServerSideEntities2())
                     {
-                        var dbAccount = (from a in db.ACCOUNTs where a.AccId == id select a).SingleOrDefault();
+                        var dbAccount = (from a in db.BORROWERSet where a.PersonId == id select a).SingleOrDefault();
                         if (dbAccount != null)
                         {
                             dbAccount.Username = UsernameInput;
                             dbAccount.Password = PasswordInput;
-                            dbAccount.FirstName = FirstNameInput;
-                            dbAccount.LastName = LastNameInput;
-                            dbAccount.Address = AddressInput;
-                            dbAccount.TelNo = TelNoInput;
+                            
+                            //dbAccount.FirstName = FirstNameInput;
+                            //dbAccount.LastName = LastNameInput;
+                            //dbAccount.Address = AddressInput;
+                            //dbAccount.TelNo = TelNoInput;
                             dbAccount.Level = LevelInput;
                             db.SaveChanges();
                         }
@@ -176,7 +195,7 @@ namespace RealBusinessPage.Controllers
             {
             if (Session["level"].ToString() != "2")
             {
-                return RedirectToAction("Index", "main");
+                return RedirectToAction("NoAuthrization", "Error");
             }
             return View();
             }
@@ -187,12 +206,12 @@ namespace RealBusinessPage.Controllers
             {
                 try
                 {
-                    using (var db = new Model())
+                    using (var db = new ServerSideEntities2())
                     {
-                        var dbAccount = (from a in db.ACCOUNTs where a.Id == id select a).SingleOrDefault();
+                        var dbAccount = (from a in db.BORROWERSet where a.PersonId == id select a).SingleOrDefault();
                         if (dbAccount != null)
                         {
-                            db.ACCOUNTs.Remove(dbAccount);
+                            db.BORROWERSet.Remove(dbAccount);
                             db.SaveChanges();
                         }
                         else
