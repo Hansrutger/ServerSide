@@ -44,9 +44,9 @@
     <Key>
       <PropertyRef Name="BorrowDate" />
     </Key>
-    <Property Name="BorrowDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="BorrowDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="ToBeReturnedDate" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="ReturnDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ReturnDate" Type="DateTime" Nullable="true" Precision="3" />
     <Property Name="COPYBarcode" Type="Int32" Nullable="false" />
     <Property Name="BORROWERPersonId" Type="Int32" Nullable="false" />
     <NavigationProperty Name="BORROWERSet" Relationship="Self.FK_BORROWERBORROW" FromRole="BORROWSet" ToRole="BORROWERSet" />

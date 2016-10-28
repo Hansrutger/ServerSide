@@ -81,9 +81,9 @@
     <Key>
       <PropertyRef Name="BorrowDate" />
     </Key>
-    <Property Name="BorrowDate" Type="datetime" Nullable="false" />
+    <Property Name="BorrowDate" Type="datetime" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ToBeReturnedDate" Type="datetime" Nullable="false" />
-    <Property Name="ReturnDate" Type="datetime" Nullable="false" />
+    <Property Name="ReturnDate" Type="datetime" Nullable="true" />
     <Property Name="COPYBarcode" Type="int" Nullable="false" />
     <Property Name="BORROWERPersonId" Type="int" Nullable="false" />
   </EntityType>

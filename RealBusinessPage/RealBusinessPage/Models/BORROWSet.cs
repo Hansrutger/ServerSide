@@ -16,7 +16,7 @@ namespace RealBusinessPage.Models
     {
         public System.DateTime BorrowDate { get; set; }
         public System.DateTime ToBeReturnedDate { get; set; }
-        public System.DateTime ReturnDate { get; set; }
+        public Nullable<System.DateTime> ReturnDate { get; set; }
         public int COPYBarcode { get; set; }
         public int BORROWERPersonId { get; set; }
     

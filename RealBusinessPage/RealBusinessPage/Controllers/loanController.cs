@@ -80,11 +80,16 @@ namespace RealBusinessPage.Controllers
             int _username = Convert.ToInt32(username);
             using (var db = new ServerSideEntities2())
             {
-                var dbBook = (from b in db.COPYSet where b.BOOKISBN == ISBN select b).ToList();
+                var dbBook = (from b in db.COPYSet where (b.BOOKISBN == ISBN && b.STATUSSet.status == "In Stock") select b).FirstOrDefault();
+
+               
+
                 if (dbBook != null)
                 {                    
                     DateTime todayDate = DateTime.Now;
                     var dbLoan = (from i in db.BORROWSet where i.BORROWERPersonId == _username select i).SingleOrDefault();
+
+
                     if (dbLoan != null)
                     {
                         DateTime previousDate = Convert.ToDateTime(dbLoan.ToBeReturnedDate);
@@ -101,7 +106,7 @@ namespace RealBusinessPage.Controllers
                             if (dbAccount != null)
                             {
                                 DateTime date = DateTime.Now.AddDays(20);
-
+                                string NewDate = date.ToString();
                                 BORROWSet loanObj = new BORROWSet();
                                 loanObj.ToBeReturnedDate = date;
                                 loanObj.BorrowDate = todayDate;
@@ -109,6 +114,7 @@ namespace RealBusinessPage.Controllers
                                 //loanObj.COPYBarcode = ISBN;
 
                                 db.BORROWSet.Add(loanObj);
+                                
                                 db.SaveChanges();
 
                                 ViewBag.BookInfo = dbBook;
@@ -129,34 +135,36 @@ namespace RealBusinessPage.Controllers
                     }
                     else
                     {
-                        //var dbAccount = (from a in db.BORROWSet where a.BORROWERPersonId == _username select a).SingleOrDefault();
-                        if (dbLoan == null)
+                        var dbBorrower = (from a in db.BORROWERSet where a.PersonId == _username select a).SingleOrDefault();
+                        if (dbBorrower != null)
                         {
-                            DateTime date = DateTime.Now.AddDays(20);
-
+                            //DateTime date = DateTime.Now.AddDays(20);                           
                             BORROWSet loanObj = new BORROWSet();
-                            loanObj.ToBeReturnedDate = date;
-                            loanObj.BorrowDate = todayDate;
+                            loanObj.ToBeReturnedDate = DateTime.Now.AddDays(20); 
+                            loanObj.BorrowDate = DateTime.Now;
                             loanObj.BORROWERPersonId = _username;
-                            //loanObj.COPYBarcode=
-                            //loanObj.COPYBarcode = barcode;
+
+                            loanObj.BORROWERSet = dbBorrower;
+                            loanObj.COPYBarcode =dbBook.Barcode ;
 
                             db.BORROWSet.Add(loanObj);
+                            dbBook.STATUSStatusId = 2;
                             db.SaveChanges();
 
-                            ViewBag.BookInfo = dbBook;
+                            ViewBag.BookInfo = dbBook.BOOKSet;
 
                             return View();
                         }
                         else
                         {
+
                             return RedirectToAction("Error");
                         }
                     }
                 }
                 else
                 {
-                    return RedirectToAction("Error");
+                    return RedirectToAction("BookNotInStock", "Error");
                 }
             }
         }

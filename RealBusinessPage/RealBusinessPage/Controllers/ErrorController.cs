@@ -29,6 +29,11 @@ namespace RealBusinessPage.Controllers
             return View();
         }
 
+        public ActionResult BookNotInStock()
+        {
+            return View();
+        }
 
+        
     }
 }

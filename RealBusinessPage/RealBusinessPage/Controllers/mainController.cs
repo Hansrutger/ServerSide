@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RealBusinessPage.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -21,6 +22,27 @@ namespace RealBusinessPage.Controllers
                 return RedirectToAction("Index", "login");
             }
             
+            //else
+            //{
+            //    List<BORROWSet> borrowList = new List<BORROWSet>();
+            //    try
+            //    {
+            //        using (var db = new ServerSideEntities2())
+            //        {
+            //            var dbBorrower = (from a in db.BORROWSet where a.BORROWERPersonId == Convert.ToInt32(Session["personId"].ToString()) select a).ToList();
+
+            //            foreach (var borrow in dbBorrower)
+            //            {
+                            
+            //            }
+            //        }
+            //    }
+                
+            //    catch
+            //    {
+
+            //    }
+            //}
             return View();
         }
 

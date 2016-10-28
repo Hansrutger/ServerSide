@@ -30,15 +30,15 @@ namespace RealBusinessPage.Controllers
                     var user = (from a in db.BORROWERSet where a.Username == username select a).SingleOrDefault();
                     if (user != null && password == user.Password)
                     {
-                        var borrower = (from a in db.BORROWSet where a.BORROWERPersonId == user.PersonId select a).SingleOrDefault();
+                        var borrower = (from b in db.BORROWSet where b.BORROWERPersonId == user.PersonId select b).ToList();
                         
                         List<BORROWSet> loanList = new List<BORROWSet>();
                         if (borrower != null)
                         {
-                            //foreach (var obj in borrower)
-                            //{
-                            //    loanList.Add(obj);
-                            //}
+                            foreach (var obj in borrower)
+                            {
+                                loanList.Add(obj);
+                            }
                             ViewBag.LoanList = loanList;
                         }
 

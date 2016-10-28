@@ -65,10 +65,7 @@ namespace RealBusinessPage.Controllers
             [HttpPost]
             public ActionResult Create(FormCollection collection)
             {
-            if (Session["level"].ToString() != "2")
-            {
-                return RedirectToAction("NoAuthrization", "Error");
-            }
+           
             try
                 {
                     String UsernameInput = collection["Username"].ToString();

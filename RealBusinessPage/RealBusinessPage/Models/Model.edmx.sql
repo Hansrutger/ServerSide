@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/25/2016 07:43:38
+-- Date Created: 10/28/2016 14:58:13
 -- Generated from EDMX file: C:\Users\Charles\Source\Repos\ServerSide\RealBusinessPage\RealBusinessPage\Models\Model.edmx
 -- --------------------------------------------------
 
@@ -116,7 +116,7 @@ GO
 CREATE TABLE [dbo].[BORROWSet] (
     [BorrowDate] datetime  NOT NULL,
     [ToBeReturnedDate] datetime  NOT NULL,
-    [ReturnDate] datetime  NOT NULL,
+    [ReturnDate] datetime  NULL,
     [COPYBarcode] int  NOT NULL,
     [BORROWERPersonId] int  NOT NULL
 );
