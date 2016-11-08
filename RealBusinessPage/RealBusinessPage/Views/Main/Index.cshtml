@@ -1,7 +1,17 @@
 ﻿
 @{
     ViewBag.Title = "Index";
+    List<RealBusinessPage.Models.BORROWSet> loanList = ViewBag.LoanList;
+    List<RealBusinessPage.Models.BOOKSet> BookList = ViewBag.BookList;
 }
 
 <h2>Index</h2>
 
+<div>
+
+    @foreach (var obj in loanList)
+    {
+        @*@obj.*@ <text> - (Lasts: @obj.COPYSet.BOOKSet.Title <a href="/loan/renew?loanId=@obj.Borrowid">Renew loan</a> | <a href="/loan/delete/@obj.Borrowid">Remove loan</a>)</text>
+        <br />
+    }
+</div>

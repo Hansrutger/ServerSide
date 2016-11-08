@@ -41,6 +41,7 @@
     <EntitySetMapping Name="BORROWSet">
       <EntityTypeMapping TypeName="IsTypeOf(Model.BORROWSet)">
         <MappingFragment StoreEntitySet="BORROWSet">
+          <ScalarProperty Name="Borrowid" ColumnName="Borrowid" />
           <ScalarProperty Name="BorrowDate" ColumnName="BorrowDate" />
           <ScalarProperty Name="ToBeReturnedDate" ColumnName="ToBeReturnedDate" />
           <ScalarProperty Name="ReturnDate" ColumnName="ReturnDate" />

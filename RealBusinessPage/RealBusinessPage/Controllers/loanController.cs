@@ -18,12 +18,12 @@ namespace RealBusinessPage.Controllers
         }
 
         // GET: loan/Details/hasse - om admin så vilken som helst användare, annars bara sig själv
-        public ActionResult Details(string username)
+        public ActionResult Details(int username)
         {
-            if (Session["level"].ToString() != "2")
-            {
-                return RedirectToAction("NoAuthrization", "Error");
-            }
+            //if (Session["level"].ToString() != "2")
+            //{
+            //    return RedirectToAction("NoAuthrization", "Error");
+            //}
 
             if (Session["level"].ToString() == "2")
             {
@@ -38,15 +38,24 @@ namespace RealBusinessPage.Controllers
                     ViewBag.selectedUser = username;
                     ViewBag.AccountList = accountList;
                 }
-
+                return RedirectToAction("NoAuthrization", "Error");
 
             }
+            //else
+            //{
+            //    using (var db = new ServerSideEntities2())
+            //    {
+            //        var dbLoans = (from a in db.BORROWSet where a.Borrowid == username select a);
+            //        List<BORROWSet> LoanList = new List<BORROWSet>();
 
+            //    }
+            //}
 
 
             using (var db = new ServerSideEntities2())
             {
-                var dbLoan = (from i in db.BORROWSet.Include("BORROWERSet").Include("BOOKSet") where i.BORROWERSet.Username == username select i).ToList();
+                //var dbLoan = (from i in db.BORROWSet.Include("BORROWERSet").Include("BOOKSet") where i.Borrowid == username select i).ToList();
+                var dbLoan = (from i in db.BORROWSet where i.Borrowid == username select i).ToList();
                 List<BORROWSet> loanList = new List<BORROWSet>();
                 foreach (var obj in dbLoan)
                 {
@@ -66,7 +75,7 @@ namespace RealBusinessPage.Controllers
                 var dbLoan = (from i in db.BORROWSet where i.BORROWERPersonId == loanId select i).SingleOrDefault();
                 if (dbLoan != null)
                 {
-                    dbLoan.ToBeReturnedDate = newDate;
+                    dbLoan.ToBeReturnedDate = newDate.ToString();
                     db.SaveChanges();
                 }
             }
@@ -82,7 +91,9 @@ namespace RealBusinessPage.Controllers
             {
                 var dbBook = (from b in db.COPYSet where (b.BOOKISBN == ISBN && b.STATUSSet.status == "In Stock") select b).FirstOrDefault();
 
-               
+                //DateTime todaysDate = DateTime.Now;
+                //DateTime returnDate = DateTime.Now.AddDays(20);
+
 
                 if (dbBook != null)
                 {                    
@@ -108,8 +119,8 @@ namespace RealBusinessPage.Controllers
                                 DateTime date = DateTime.Now.AddDays(20);
                                 string NewDate = date.ToString();
                                 BORROWSet loanObj = new BORROWSet();
-                                loanObj.ToBeReturnedDate = date;
-                                loanObj.BorrowDate = todayDate;
+                                loanObj.ToBeReturnedDate = date.Date.ToString();
+                                loanObj.BorrowDate = todayDate.Date.ToString();
                                 loanObj.BORROWERPersonId = _username;
                                 //loanObj.COPYBarcode = ISBN;
 
@@ -140,10 +151,12 @@ namespace RealBusinessPage.Controllers
                         {
                             //DateTime date = DateTime.Now.AddDays(20);                           
                             BORROWSet loanObj = new BORROWSet();
-                            loanObj.ToBeReturnedDate = DateTime.Now.AddDays(20); 
-                            loanObj.BorrowDate = DateTime.Now;
+                            String todaysDate = DateTime.Now.Date.ToString();
+                            String returnDate = DateTime.Now.AddDays(20).Date.ToString();
+                            loanObj.ToBeReturnedDate = returnDate;
+                            loanObj.BorrowDate = todaysDate;
                             loanObj.BORROWERPersonId = _username;
-
+                            //loanObj.Borrowid = (dbBook.BOOKISBN + dbBorrower.PersonId);
                             loanObj.BORROWERSet = dbBorrower;
                             loanObj.COPYBarcode =dbBook.Barcode ;
 

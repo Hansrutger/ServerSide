@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 10/28/2016 14:58:13
+-- Date Created: 11/03/2016 12:17:55
 -- Generated from EDMX file: C:\Users\Charles\Source\Repos\ServerSide\RealBusinessPage\RealBusinessPage\Models\Model.edmx
 -- --------------------------------------------------
 
@@ -114,9 +114,10 @@ GO
 
 -- Creating table 'BORROWSet'
 CREATE TABLE [dbo].[BORROWSet] (
-    [BorrowDate] datetime  NOT NULL,
-    [ToBeReturnedDate] datetime  NOT NULL,
-    [ReturnDate] datetime  NULL,
+    [Borrowid] int IDENTITY(1,1) NOT NULL,
+    [BorrowDate] nvarchar(max)  NOT NULL,
+    [ToBeReturnedDate] nvarchar(max)  NOT NULL,
+    [ReturnDate] nvarchar(max)  NULL,
     [COPYBarcode] int  NOT NULL,
     [BORROWERPersonId] int  NOT NULL
 );
@@ -185,10 +186,10 @@ ADD CONSTRAINT [PK_BORROWERSet]
     PRIMARY KEY CLUSTERED ([PersonId] ASC);
 GO
 
--- Creating primary key on [BorrowDate] in table 'BORROWSet'
+-- Creating primary key on [Borrowid] in table 'BORROWSet'
 ALTER TABLE [dbo].[BORROWSet]
 ADD CONSTRAINT [PK_BORROWSet]
-    PRIMARY KEY CLUSTERED ([BorrowDate] ASC);
+    PRIMARY KEY CLUSTERED ([Borrowid] ASC);
 GO
 
 -- Creating primary key on [CategoryId] in table 'CATEGORYSet'

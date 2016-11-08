@@ -21,28 +21,31 @@ namespace RealBusinessPage.Controllers
             {
                 return RedirectToAction("Index", "login");
             }
-            
-            //else
-            //{
-            //    List<BORROWSet> borrowList = new List<BORROWSet>();
-            //    try
-            //    {
-            //        using (var db = new ServerSideEntities2())
-            //        {
-            //            var dbBorrower = (from a in db.BORROWSet where a.BORROWERPersonId == Convert.ToInt32(Session["personId"].ToString()) select a).ToList();
 
-            //            foreach (var borrow in dbBorrower)
-            //            {
-                            
-            //            }
-            //        }
-            //    }
-                
-            //    catch
-            //    {
+            else
+            {
+                List<BORROWSet> borrowList = new List<BORROWSet>();
+                List<BOOKSet> bookList = new List<BOOKSet>();
+                using (var db = new ServerSideEntities2())
+                {
+                    int personId = int.Parse(Session["personid"].ToString());
+                    //var dbUser = (from u in db.BOOKSet where u. == Session["personid"].ToString() select u);
+                    var dbLoan = (from a in db.BORROWSet where a.BORROWERPersonId == personId select a).ToList();
+                    //var dbUser = (from u in db.BOOKSet where u.ISBN == dbLoan select u);
+                    //var dbBooks = (from b in db.BOOKSet select b).ToList();
 
-            //    }
-            //}
+                    foreach (var obj in dbLoan)
+                    {
+                        borrowList.Add(obj);
+                        var dbUser = (from u in db.BOOKSet where obj.COPYBarcode == u.ISBN select u).SingleOrDefault();
+                        bookList.Add(dbUser);
+                    }
+                    ViewBag.BookList = bookList;
+                    ViewBag.LoanList = borrowList;
+
+                }
+
+            }
             return View();
         }
 

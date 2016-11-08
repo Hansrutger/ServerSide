@@ -14,9 +14,10 @@ namespace RealBusinessPage.Models
     
     public partial class BORROWSet
     {
-        public System.DateTime BorrowDate { get; set; }
-        public System.DateTime ToBeReturnedDate { get; set; }
-        public Nullable<System.DateTime> ReturnDate { get; set; }
+        public int Borrowid { get; set; }
+        public string BorrowDate { get; set; }
+        public string ToBeReturnedDate { get; set; }
+        public string ReturnDate { get; set; }
         public int COPYBarcode { get; set; }
         public int BORROWERPersonId { get; set; }
     

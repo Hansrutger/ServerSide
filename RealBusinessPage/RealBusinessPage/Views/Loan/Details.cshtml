@@ -1,8 +1,8 @@
 ﻿
 @{
     ViewBag.Title = "Details";
-    List<RealBusinessPage.Models.Loans> loanList = ViewBag.LoanList;
-    List<RealBusinessPage.Models.Accounts> AccountList = ViewBag.AccountList;
+    List<RealBusinessPage.Models.BORROWSet> loanList = ViewBag.LoanList;
+    List<RealBusinessPage.Models.BORROWERSet> AccountList = ViewBag.AccountList;
     string selectedUser = ViewBag.selectedUser;
 }
 
@@ -24,7 +24,7 @@
 <div>
     @foreach (var obj in loanList)
     {
-        @obj.Books.Title <text> - (Lasts: @obj.Date <a href="/loan/renew?loanId=@obj.LoanId">Renew loan</a> | <a href="/loan/delete/@obj.LoanId">Remove loan</a>)</text>
+        @obj. <text> - (Lasts: @obj. <a href="/loan/renew?loanId=@obj.Borrowid">Renew loan</a> | <a href="/loan/delete/@obj.Borrowid">Remove loan</a>)</text>
         <br />
     }
 </div>

@@ -42,11 +42,12 @@
   </EntityType>
   <EntityType Name="BORROWSet">
     <Key>
-      <PropertyRef Name="BorrowDate" />
+      <PropertyRef Name="Borrowid" />
     </Key>
-    <Property Name="BorrowDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="ToBeReturnedDate" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="ReturnDate" Type="DateTime" Nullable="true" Precision="3" />
+    <Property Name="Borrowid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BorrowDate" Type="String" annotation:StoreGeneratedPattern="None" Nullable="false" />
+    <Property Name="ToBeReturnedDate" Type="String" Nullable="false" />
+    <Property Name="ReturnDate" Type="String" Nullable="true" />
     <Property Name="COPYBarcode" Type="Int32" Nullable="false" />
     <Property Name="BORROWERPersonId" Type="Int32" Nullable="false" />
     <NavigationProperty Name="BORROWERSet" Relationship="Self.FK_BORROWERBORROW" FromRole="BORROWSet" ToRole="BORROWERSet" />

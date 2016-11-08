@@ -84,11 +84,12 @@
   </EntityType>
   <EntityType Name="BORROWSet">
     <Key>
-      <PropertyRef Name="BorrowDate" />
+      <PropertyRef Name="Borrowid" />
     </Key>
-    <Property Name="BorrowDate" Type="datetime" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ToBeReturnedDate" Type="datetime" Nullable="false" />
-    <Property Name="ReturnDate" Type="datetime" Nullable="true" />
+    <Property Name="Borrowid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BorrowDate" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ToBeReturnedDate" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ReturnDate" Type="nvarchar(max)" Nullable="true" />
     <Property Name="COPYBarcode" Type="int" Nullable="false" />
     <Property Name="BORROWERPersonId" Type="int" Nullable="false" />
   </EntityType>
@@ -276,11 +277,12 @@
         </EntityType>
         <EntityType Name="BORROWSet">
           <Key>
-            <PropertyRef Name="BorrowDate" />
+            <PropertyRef Name="Borrowid" />
           </Key>
-          <Property Name="BorrowDate" Type="DateTime" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ToBeReturnedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ReturnDate" Type="DateTime" Nullable="true" Precision="3" />
+          <Property Name="Borrowid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BorrowDate" Type="String" annotation:StoreGeneratedPattern="None" Nullable="false" />
+          <Property Name="ToBeReturnedDate" Type="String" Nullable="false" />
+          <Property Name="ReturnDate" Type="String" Nullable="true" />
           <Property Name="COPYBarcode" Type="Int32" Nullable="false" />
           <Property Name="BORROWERPersonId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="BORROWERSet" Relationship="Self.FK_BORROWERBORROW" FromRole="BORROWSet" ToRole="BORROWERSet" />
@@ -521,6 +523,7 @@
     <EntitySetMapping Name="BORROWSet">
       <EntityTypeMapping TypeName="IsTypeOf(Model.BORROWSet)">
         <MappingFragment StoreEntitySet="BORROWSet">
+          <ScalarProperty Name="Borrowid" ColumnName="Borrowid" />
           <ScalarProperty Name="BorrowDate" ColumnName="BorrowDate" />
           <ScalarProperty Name="ToBeReturnedDate" ColumnName="ToBeReturnedDate" />
           <ScalarProperty Name="ReturnDate" ColumnName="ReturnDate" />
