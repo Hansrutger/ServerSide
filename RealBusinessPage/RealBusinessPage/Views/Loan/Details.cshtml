@@ -3,6 +3,7 @@
     ViewBag.Title = "Details";
     List<RealBusinessPage.Models.BORROWSet> loanList = ViewBag.LoanList;
     List<RealBusinessPage.Models.BORROWERSet> AccountList = ViewBag.AccountList;
+    List<RealBusinessPage.Models.BOOKSet> BookList = ViewBag.BookList;
     string selectedUser = ViewBag.selectedUser;
 }
 
@@ -22,10 +23,15 @@
 
 <h2>@if (ViewBag.selectedUser != null) {@selectedUser.ToString()} Loans</h2>
 <div>
-    @foreach (var obj in loanList)
-    {
-        @obj. <text> - (Lasts: @obj. <a href="/loan/renew?loanId=@obj.Borrowid">Renew loan</a> | <a href="/loan/delete/@obj.Borrowid">Remove loan</a>)</text>
+   @for (int i = 0; i < loanList.Count; i++)
+   {
+
+       foreach (var obj in loanList)
+       {
+        @BookList[i].Title <text> - (Lasts:@obj.BorrowDate.Remove(10) Return: @obj.ToBeReturnedDate.Remove(10) <a href="/loan/renew?_username=@Session["personId"].ToString()&bookISBN=@obj.Borrowid">Renew loan</a> | <a href="/loan/delete/?_username=@Session["personId"].ToString()&bookISBN=@obj.Borrowid">Remove loan</a>)</text>
         <br />
-    }
+           break;
+       }
+   }
 </div>
 

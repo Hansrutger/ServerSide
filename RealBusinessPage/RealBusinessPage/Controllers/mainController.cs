@@ -33,11 +33,11 @@ namespace RealBusinessPage.Controllers
                     var dbLoan = (from a in db.BORROWSet where a.BORROWERPersonId == personId select a).ToList();
                     //var dbUser = (from u in db.BOOKSet where u.ISBN == dbLoan select u);
                     //var dbBooks = (from b in db.BOOKSet select b).ToList();
-
+                    //inget smidigt sätt !!
                     foreach (var obj in dbLoan)
                     {
                         borrowList.Add(obj);
-                        var dbUser = (from u in db.BOOKSet where obj.COPYBarcode == u.ISBN select u).SingleOrDefault();
+                        var dbUser = (from u in db.BOOKSet where obj.COPYSet.BOOKISBN == u.ISBN select u).SingleOrDefault();
                         bookList.Add(dbUser);
                     }
                     ViewBag.BookList = bookList;

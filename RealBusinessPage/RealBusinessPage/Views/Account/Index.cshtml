@@ -27,8 +27,8 @@
         foreach (var obj in accList)
         {
         <a href="/account/details?Username=@obj.Username">@obj.Username</a>
-        <text>(</text><a href="/account/edit/@obj.AccId">Edit</a><text>,
-        </text><a href="/account/remove/@obj.AccId">Delete</a><text>)</text><br />
+        <text>(</text><a href="/account/edit/@obj.PersonId">Edit</a><text>,
+        </text><a href="/account/remove/@obj.PersonId">Delete</a><text>)</text><br />
         }
 
         <br />
@@ -41,7 +41,7 @@
         var obj = accList.Find(x => x.Username == Session["username"].ToString());
 
         <a href="/account/details?Username=@obj.Username">@obj.Username</a>
-        <text>(</text><a href="/account/edit/@obj.AccId">Edit</a><text>,
-        </text><a href="/account/remove/@obj.AccId">Delete</a><text>)</text><br />
+        <text>(</text><a href="/account/edit/@obj.PersonId">Edit</a><text>,
+        </text><a href="/account/remove/@obj.PersonId">Delete</a><text>)</text><br />
     }
 }

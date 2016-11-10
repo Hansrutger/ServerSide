@@ -30,16 +30,12 @@ namespace RealBusinessPage.Controllers
             // GET: account/Details/5 - admin
             public ActionResult Details(string Username)
             {
-            if (Session["level"].ToString() != "2")
+            if (Session["level"].ToString() != "2"  && Username!= Session["username"].ToString())
             {
                 return RedirectToAction("NoAuthrization", "Error");
             }
 
-            if (Session["level"].ToString() != "2")
-            {
-                return RedirectToAction("Index", "main");
-            }
-
+           
             using (var db = new ServerSideEntities2())
                 {
                     var dbUser = (from a in db.BORROWERSet where a.Username == Username select a).SingleOrDefault();
