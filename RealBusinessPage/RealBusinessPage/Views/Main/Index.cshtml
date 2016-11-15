@@ -13,7 +13,7 @@
 
         foreach (var obj in loanList)
         {
-            @BookList[i].Title <text> - (Lasts:@obj.BorrowDate.Remove(10) Return: @obj.ToBeReturnedDate.Remove(10) <a href="/loan/renew?_username=@Session["personId"].ToString()&bookISBN=@obj.Borrowid">Renew loan</a> | <a href="/loan/delete/?_username=@Session["personId"].ToString()&bookISBN=@obj.Borrowid">Remove loan</a>)</text>
+            @BookList[i].Title <text> - (Lasts:@obj.BorrowDate.Remove(10) Return: @obj.ToBeReturnedDate.Remove(10) <a href="/loan/renew?_username=@Session["personId"].ToString()&bookISBN=@obj.COPYBarcode">Renew loan</a> | <a href="/loan/delete/?_username=@Session["personId"].ToString()&bookISBN=@obj.COPYBarcode">Remove loan</a>)</text>
                 <br />
             break;
         }

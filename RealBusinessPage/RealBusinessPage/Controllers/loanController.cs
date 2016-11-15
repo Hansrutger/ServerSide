@@ -110,7 +110,7 @@ namespace RealBusinessPage.Controllers
             int _username = Convert.ToInt32(username);
             using (var db = new ServerSideEntities2())
             {
-                var dbBook = (from b in db.COPYSet where (b.BOOKISBN == ISBN && b.STATUSSet.status == "In Stock") select b).SingleOrDefault();
+                var dbBook = (from b in db.COPYSet where (b.BOOKISBN == ISBN && b.STATUSSet.status == "In Stock") select b).FirstOrDefault();
 
                 //DateTime todaysDate = DateTime.Now;
                 //DateTime returnDate = DateTime.Now.AddDays(20);
@@ -119,7 +119,7 @@ namespace RealBusinessPage.Controllers
                 if (dbBook != null)
                 {                    
                     DateTime todayDate = DateTime.Now;
-                    var dbLoan = (from i in db.BORROWSet where i.BORROWERPersonId == _username && i.COPYBarcode== dbBook.BOOKISBN select i).SingleOrDefault();
+                    var dbLoan = (from i in db.BORROWSet where i.BORROWERPersonId == _username && i.COPYBarcode== dbBook.Barcode select i).SingleOrDefault();
 
 
                     if (dbLoan != null)
@@ -211,18 +211,22 @@ namespace RealBusinessPage.Controllers
             int borrowerID = Convert.ToInt32(_username);
             using (var db = new ServerSideEntities2())
             {
-                //var dbLoan = (from i in db.BORROWSet where i.BORROWERPersonId == id select i).SingleOrDefault();
+                //var dbLoan = (from i in db.BORROWSet where i.BORROWERPersonId == borrowerID select i).SingleOrDefault();
                 //var dbCopy = (from a in db.COPYSet where a.Barcode == dbLoan.COPYBarcode select a).SingleOrDefault();
-                var dbLoan = (from i in db.BORROWSet where i.BORROWERPersonId == borrowerID && i.COPYBarcode == bookISBN select i).SingleOrDefault();
-                if (dbLoan != null)
+                var loan = (from i in db.BORROWSet where i.BORROWERPersonId == borrowerID select i).ToList();
+                var obj = (from k in loan where k.COPYBarcode == bookISBN select k).SingleOrDefault();
+                
+                if (obj != null)
                 {
-                    db.BORROWSet.Remove(dbLoan);
+                    obj.COPYSet.STATUSStatusId = 1;
+                    db.BORROWSet.Remove(obj);
                     db.SaveChanges();
                 }
                 else
                 {
                     return RedirectToAction("Error");
                 }
+              
             }
             return RedirectToAction("Index", "main");
         }

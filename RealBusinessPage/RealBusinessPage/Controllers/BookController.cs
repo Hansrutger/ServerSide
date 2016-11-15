@@ -179,7 +179,7 @@ namespace RealBusinessPage.Controllers
         }
         using (var db = new ServerSideEntities2())
             {
-                var dbBook = (from b in db.BOOKSet.Include("AUTHORSet") where b.ISBN == id select b).SingleOrDefault();
+                var dbBook = (from b in db.BOOKSet where b.ISBN == id select b).SingleOrDefault();
                 if (dbBook != null)
                 {
                     ViewBag.BookInfo = dbBook;

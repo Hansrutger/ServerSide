@@ -1,5 +1,6 @@
 ﻿using RealBusinessPage.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -186,33 +187,63 @@ namespace RealBusinessPage.Controllers
             // GET: account/Delete/5 - admin
             public ActionResult Remove(int id)
             {
-            if (Session["level"].ToString() != "2")
+            if (Session["level"].ToString() == "2")
             {
-                return RedirectToAction("NoAuthrization", "Error");
+                try
+                {
+                    List<BORROWERSet> accountlist = new List<BORROWERSet>(); 
+                    using (var db = new ServerSideEntities2())
+                    {
+                        var Borrowers = (from a in db.BORROWERSet select a).ToList();
+                        foreach (var obj in Borrowers)
+                        {
+                            accountlist.Add(obj);
+                        }
+                        ViewBag.acclist = accountlist;
+                    }
+                }
+                catch
+                {
+                    return RedirectToAction("Error");
+                }
+                    return View();
             }
-            return View();
+            ViewBag.personId = id;
+                return View();
             }
 
             // POST: account/Delete/5 - admin
             [HttpPost]
             public ActionResult Remove(int id, FormCollection collection)
             {
-                try
+           
+
+
+
+            try
                 {
                     using (var db = new ServerSideEntities2())
                     {
                         var dbAccount = (from a in db.BORROWERSet where a.PersonId == id select a).SingleOrDefault();
                         if (dbAccount != null)
                         {
+                            var loan = (from i in db.BORROWSet where i.BORROWERPersonId == id select i).ToList();
+
+                            foreach (var obj in loan)
+                            {
+                                obj.COPYSet.STATUSStatusId = 1;
+                                db.BORROWSet.Remove(obj);
+                            }
+
                             db.BORROWERSet.Remove(dbAccount);
-                            db.SaveChanges();
-                        }
+                                db.SaveChanges();
+                            }
                         else
                         {
                             return RedirectToAction("Error");
                         }
                     }
-
+                    Session.Clear();
                     return RedirectToAction("Index");
                 }
                 catch

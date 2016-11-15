@@ -1,11 +1,11 @@
 ﻿@{
     ViewBag.Title = "Edit";
-    RealBusinessPage.Models.Accounts userObj = ViewBag.AccountInfo;
+    RealBusinessPage.Models.BORROWERSet userObj = ViewBag.AccountInfo;
 }
 
 <h2>Edit</h2>
 
-@if (Session["admin"] != null && Session["admin"].ToString() == "true")
+@if (Session["level"] != null && Session["level"].ToString() == "2")
 {
     using (Html.BeginForm("Edit", "account", FormMethod.Post))
     {
