@@ -5,7 +5,7 @@
 
 <h2>Edit</h2>
 
-@if (Session["level"] != null && Session["level"].ToString() == "2")
+@if (Session["username"].ToString() != null)
 {
     using (Html.BeginForm("Edit", "account", FormMethod.Post))
     {

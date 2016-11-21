@@ -118,10 +118,10 @@ namespace RealBusinessPage.Controllers
             // GET: account/Edit/5 - admin
             public ActionResult Edit(int id)
             {
-            if (Session["level"].ToString() != "2")
-            {
-                return RedirectToAction("Index", "main");
-            }
+            //if (Session["level"].ToString() != "2")
+            //{
+            //    return RedirectToAction("Index", "main");
+            //}
             using (var db = new ServerSideEntities2())
                 {
                     var dbAccount = (from a in db.BORROWERSet where a.PersonId == id select a).SingleOrDefault();
@@ -142,10 +142,10 @@ namespace RealBusinessPage.Controllers
             public ActionResult Edit(int id, FormCollection collection)
             {
 
-            if (Session["level"].ToString() != "2")
-            {
-                return RedirectToAction("NoAuthrization", "Error");
-            }
+            //if (Session["level"].ToString() != "2")
+            //{
+            //    return RedirectToAction("NoAuthrization", "Error");
+            //}
             try
                 {
                     String UsernameInput = collection["Username"].ToString();
@@ -164,10 +164,10 @@ namespace RealBusinessPage.Controllers
                             dbAccount.Username = UsernameInput;
                             dbAccount.Password = PasswordInput;
                             
-                            //dbAccount.FirstName = FirstNameInput;
-                            //dbAccount.LastName = LastNameInput;
-                            //dbAccount.Address = AddressInput;
-                            //dbAccount.TelNo = TelNoInput;
+                            dbAccount.FirstName = FirstNameInput;
+                            dbAccount.LastName = LastNameInput;
+                            dbAccount.Address = AddressInput;
+                            dbAccount.TelNo = TelNoInput;
                             dbAccount.Level = LevelInput;
                             db.SaveChanges();
                         }

@@ -18,9 +18,10 @@ namespace RealBusinessPage.Controllers
         }
 
         // GET: loan/Details/hasse - om admin så vilken som helst användare, annars bara sig själv
-        public ActionResult Details(string _username)
+        public ActionResult Details(string username)
         {
-            int username =Convert.ToInt32( _username);
+           int _username =Convert.ToInt32( username);
+            
             //if (Session["level"].ToString() != "2")
             //{
             //    return RedirectToAction("NoAuthrization", "Error");
@@ -36,10 +37,10 @@ namespace RealBusinessPage.Controllers
                     {
                         accountList.Add(obj);
                     }
-                    ViewBag.selectedUser = username;
+                    
                     ViewBag.AccountList = accountList;
                 }
-                return RedirectToAction("NoAuthrization", "Error");
+                
 
             }
             //else
@@ -68,9 +69,11 @@ namespace RealBusinessPage.Controllers
             List<BOOKSet> bookList = new List<BOOKSet>();
             using (var db = new ServerSideEntities2())
             {
-                int personId = int.Parse(Session["personid"].ToString());
+                //int personId = int.Parse(Session["personid"].ToString());
+
+                var slectedUser = (from a in db.BORROWERSet where a.PersonId == _username select a).SingleOrDefault();
                 //var dbUser = (from u in db.BOOKSet where u. == Session["personid"].ToString() select u);
-                var dbLoan = (from a in db.BORROWSet where a.BORROWERPersonId == personId select a).ToList();
+                var dbLoan = (from a in db.BORROWSet where a.BORROWERPersonId == slectedUser.PersonId select a).ToList();
                 //var dbUser = (from u in db.BOOKSet where u.ISBN == dbLoan select u);
                 //var dbBooks = (from b in db.BOOKSet select b).ToList();
                 //inget smidigt sätt !!
@@ -82,6 +85,7 @@ namespace RealBusinessPage.Controllers
                 }
                 ViewBag.BookList = bookList;
                 ViewBag.LoanList = borrowList;
+                ViewBag.selectedUser = slectedUser.Username;
             }
                 return View();
         }
