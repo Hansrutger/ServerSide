@@ -1,4 +1,5 @@
-﻿using RealBusinessPage.Models;
+﻿using RealBusinessPage.App_Start;
+using RealBusinessPage.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -86,11 +87,11 @@ namespace RealBusinessPage.Controllers
                         
                             BORROWERSet userObj = new BORROWERSet();                            
                             userObj.Username = UsernameInput;
-                            userObj.Password = PasswordInput;
+                            //userObj.Password = PasswordInput;
                             userObj.Level = LevelInput;
-                            
-                            //BORROWERSet userBorrower = new BORROWERSet();
-                            userObj.FirstName = FirstNameInput;
+                        userObj.Password = hiddenSecrets.saltPassword(PasswordInput);
+                        //BORROWERSet userBorrower = new BORROWERSet();
+                        userObj.FirstName = FirstNameInput;
                             userObj.LastName = LastNameInput;
                             userObj.Address = AddressInput;
                             userObj.TelNo = TelNoInput;
@@ -98,8 +99,10 @@ namespace RealBusinessPage.Controllers
 
 
                             db.BORROWERSet.Add(userObj);
-                           // db.Entry(userObj).State = System.Data.Entity.EntityState.Added;
-                            db.SaveChanges();
+                        // db.Entry(userObj).State = System.Data.Entity.EntityState.Added;
+
+                        
+                        db.SaveChanges();
                         }
                         else
                         {
@@ -162,13 +165,15 @@ namespace RealBusinessPage.Controllers
                         if (dbAccount != null)
                         {
                             dbAccount.Username = UsernameInput;
-                            dbAccount.Password = PasswordInput;
+                            //dbAccount.Password = PasswordInput;
                             
                             dbAccount.FirstName = FirstNameInput;
                             dbAccount.LastName = LastNameInput;
                             dbAccount.Address = AddressInput;
                             dbAccount.TelNo = TelNoInput;
                             dbAccount.Level = LevelInput;
+                        dbAccount.Password = hiddenSecrets.saltPassword(PasswordInput);
+
                             db.SaveChanges();
                         }
                         else
