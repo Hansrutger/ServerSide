@@ -29,7 +29,7 @@ namespace RealBusinessPage.Controllers
                 using (var db = new ServerSideEntities2())
                 {
                     var user = (from a in db.BORROWERSet where a.Username == username select a).SingleOrDefault();
-                    if (user != null && hiddenSecrets.saltPassword( password )== user.Password)
+                    if (user != null && hiddenSecrets.hashPassword( password )== user.Password)
                     {
                         var borrower = (from b in db.BORROWSet where b.BORROWERPersonId == user.PersonId select b).ToList();
                         
