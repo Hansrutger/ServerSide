@@ -39,6 +39,7 @@
     <Property Name="Level" Type="Int32" Nullable="false" />
     <NavigationProperty Name="BORROWSet" Relationship="Self.FK_BORROWERBORROW" FromRole="BORROWERSet" ToRole="BORROWSet" />
     <NavigationProperty Name="CATEGORYSet" Relationship="Self.FK_CATEGORYBORROWER" FromRole="BORROWERSet" ToRole="CATEGORYSet" />
+    <Property Name="Salt" Type="String" Nullable="false" />
   </EntityType>
   <EntityType Name="BORROWSet">
     <Key>

@@ -76,6 +76,7 @@
     <Property Name="Username" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Level" Type="int" Nullable="false" />
+    <Property Name="Salt" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="BORROWSet">
     <Key>

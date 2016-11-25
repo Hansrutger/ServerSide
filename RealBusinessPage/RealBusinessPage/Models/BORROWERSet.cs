@@ -29,6 +29,7 @@ namespace RealBusinessPage.Models
         public string Username { get; set; }
         public string Password { get; set; }
         public int Level { get; set; }
+        public string Salt { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BORROWSet> BORROWSet { get; set; }

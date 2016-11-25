@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 11/03/2016 12:17:55
+-- Date Created: 11/25/2016 23:10:07
 -- Generated from EDMX file: C:\Users\Charles\Source\Repos\ServerSide\RealBusinessPage\RealBusinessPage\Models\Model.edmx
 -- --------------------------------------------------
 
@@ -108,7 +108,8 @@ CREATE TABLE [dbo].[BORROWERSet] (
     [CATEGORYCategoryId] int  NOT NULL,
     [Username] nvarchar(max)  NOT NULL,
     [Password] nvarchar(max)  NOT NULL,
-    [Level] int  NOT NULL
+    [Level] int  NOT NULL,
+    [Salt] nvarchar(max)  NOT NULL
 );
 GO
 

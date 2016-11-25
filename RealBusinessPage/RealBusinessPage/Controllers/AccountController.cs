@@ -89,10 +89,10 @@ namespace RealBusinessPage.Controllers
                             userObj.Username = UsernameInput;
                             //userObj.Password = PasswordInput;
                             userObj.Level = LevelInput;
-                        //userObj.Salt = hiddenSecrets.saltPassword(PasswordInput);
-                            userObj.Password = hiddenSecrets.hashPassword(PasswordInput); // userObj.Salt + hiddenSecrets.hashPassword(PasswordInput);  <----- Den ska lägga in lösen ordet med saletet före i databasen
-                        //BORROWERSet userBorrower = new BORROWERSet();
-                        userObj.FirstName = FirstNameInput;
+                            userObj.Salt = hiddenSecrets.saltPassword(PasswordInput);
+                            userObj.Password =  userObj.Salt + hiddenSecrets.hashPassword(PasswordInput);//  <----- Den ska lägga in lösen ordet med saletet före i databasen
+                            //BORROWERSet userBorrower = new BORROWERSet();
+                            userObj.FirstName = FirstNameInput;
                             userObj.LastName = LastNameInput;
                             userObj.Address = AddressInput;
                             userObj.TelNo = TelNoInput;
@@ -173,7 +173,7 @@ namespace RealBusinessPage.Controllers
                             dbAccount.Address = AddressInput;
                             dbAccount.TelNo = TelNoInput;
                             dbAccount.Level = LevelInput;
-                            dbAccount.Password = hiddenSecrets.hashPassword(PasswordInput);
+                            dbAccount.Password = dbAccount.Salt + hiddenSecrets.hashPassword(PasswordInput);
                         //dbAccount.Password = hiddenSecrets.saltPassword(PasswordInput);
 
                             db.SaveChanges();

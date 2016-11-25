@@ -81,6 +81,7 @@
     <Property Name="Username" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Level" Type="int" Nullable="false" />
+    <Property Name="Salt" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="BORROWSet">
     <Key>
@@ -274,6 +275,7 @@
           <Property Name="Level" Type="Int32" Nullable="false" />
           <NavigationProperty Name="BORROWSet" Relationship="Self.FK_BORROWERBORROW" FromRole="BORROWERSet" ToRole="BORROWSet" />
           <NavigationProperty Name="CATEGORYSet" Relationship="Self.FK_CATEGORYBORROWER" FromRole="BORROWERSet" ToRole="CATEGORYSet" />
+          <Property Name="Salt" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="BORROWSet">
           <Key>
@@ -517,6 +519,7 @@
           <ScalarProperty Name="Username" ColumnName="Username" />
           <ScalarProperty Name="Password" ColumnName="Password" />
           <ScalarProperty Name="Level" ColumnName="Level" />
+          <ScalarProperty Name="Salt" ColumnName="Salt" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
