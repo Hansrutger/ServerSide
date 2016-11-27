@@ -73,7 +73,7 @@ namespace RealBusinessPage.Controllers
             char delimiterChars = ',';
             try
             {
-                int isbnInput = Convert.ToInt32(collection["ISBN"].ToString());
+                //int isbnInput = Convert.ToInt32(collection["ISBN"].ToString());
                 String TitleInput = collection["Title"].ToString();
                 string PublicationYearInput = collection["PublicationYear"].ToString();
                 String DescriptionInput = collection["Description"].ToString();
@@ -86,14 +86,9 @@ namespace RealBusinessPage.Controllers
                  
 
 
-                    var dbAuthor = (from a in db.BOOKSet where a.ISBN == isbnInput select a).SingleOrDefault();
-                    //var dbaubo= (from b in db.AUTHORBOOKSet)
-                    if (dbAuthor == null)
-                    {
                         try
                         {
-                            BOOKSet bookObj = new BOOKSet();
-                            bookObj.ISBN = isbnInput;
+                            BOOKSet bookObj = new BOOKSet();                            
                             bookObj.Title = TitleInput;
                             bookObj.PublicationYear = PublicationYearInput;
                             bookObj.PublicationInfo = DescriptionInput;
@@ -105,7 +100,7 @@ namespace RealBusinessPage.Controllers
 
                                 AUTHORBOOK aubo = new AUTHORBOOK();
                                 aubo.AUTHORSetAId = i;
-                                aubo.BOOKSetISBN = isbnInput;
+                                aubo.BOOKSetISBN = bookObj.ISBN;
 
                                 db.AUTHORBOOKSet.Add(aubo);
                             }
@@ -122,7 +117,7 @@ namespace RealBusinessPage.Controllers
 
 
 
-                }
+                
 
             }
             catch
@@ -261,13 +256,34 @@ namespace RealBusinessPage.Controllers
                     var dbBook = (from b in db.BOOKSet where b.ISBN == id select b).SingleOrDefault();
                     if (dbBook != null)
                     {
-                        var dbLoan = (from i in db.BORROWSet where i.COPYBarcode == id select i).SingleOrDefault();
+                        var dbLoan = (from i in db.BORROWSet from j in db.COPYSet where i.COPYBarcode == j.Barcode select i).ToList();
                         if (dbLoan != null)
                         {
-                            db.BORROWSet.Remove(dbLoan);
+                            
+                            foreach ( var obj in dbLoan)
+                            {
+                                db.BORROWSet.Remove(obj);
+                            }
+                            
                             db.BOOKSet.Remove(dbBook);
+
+                             var dbAuthorBook = (from i in db.AUTHORBOOKSet where i.BOOKSetISBN == dbBook.ISBN select i).ToList();
+                            foreach(var obj in dbAuthorBook)
+                            {
+                                db.AUTHORBOOKSet.Remove(obj);
+                            }
+
+
+                            var BookCopy = (from i in db.COPYSet where dbBook.ISBN == i.BOOKISBN select i).ToList();
+                            foreach(var obj in BookCopy)
+                            {
+                                db.COPYSet.Remove(obj);
+                            }
+
                             db.SaveChanges();
                         }
+                       
+
                         else
                         {
                             db.BOOKSet.Remove(dbBook);
@@ -277,8 +293,9 @@ namespace RealBusinessPage.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception e)
             {
+                Console.Write(e.ToString());
                 return RedirectToAction("Error");
             }
         }

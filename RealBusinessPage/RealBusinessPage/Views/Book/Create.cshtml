@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Create";
     List<RealBusinessPage.Models.AUTHORSet> AuthorList = ViewBag.AuthorList;
-    List<RealBusinessPage.Models.AUTHORSet> AuthorToThisBook;
+    //List<RealBusinessPage.Models.AUTHORSet> AuthorToThisBook;
 }
 
 <h3>Create</h3>
@@ -10,10 +10,10 @@
 @using (Html.BeginForm("Create", "book", FormMethod.Post))
 {
     <table>
-        <tr>
+        @*<tr>
             <td>ISBN:</td>
             <td><input type="text" name="ISBN" required /></td>
-        </tr>
+        </tr>*@
         <tr>
             <td>Title:</td>
             <td><input type="text" name="Title" required /></td>

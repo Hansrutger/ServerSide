@@ -18,6 +18,11 @@ namespace RealBusinessPage.Controllers
         // GET: COPYSets
         public async Task<ActionResult> Index()
         {
+            if (Session["level"].ToString() != "2")
+            {
+                return RedirectToAction("NoAuthrization", "Error");
+            }
+
             var cOPYSet = db.COPYSet.Include(c => c.BOOKSet).Include(c => c.STATUSSet);
             return View(await cOPYSet.ToListAsync());
         }
@@ -44,7 +49,12 @@ namespace RealBusinessPage.Controllers
             {
                 return RedirectToAction("NoAuthrization", "Error");
             }
-            ViewBag.BOOKISBN = new SelectList(db.BOOKSet, "ISBN", "PublicationYear");
+            //using (var db = new ServerSideEntities2())
+            //{
+            //    var dbBooks = (from i in db.BOOKSet select i).ToList();
+
+            //}
+            ViewBag.BOOKISBN = new SelectList(db.BOOKSet, "ISBN", "Title");
             ViewBag.STATUSStatusId = new SelectList(db.STATUSSet, "StatusId", "status");
             return View();
         }
@@ -66,9 +76,9 @@ namespace RealBusinessPage.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-
-            ViewBag.BOOKISBN = new SelectList(db.BOOKSet, "ISBN", "PublicationYear", cOPYSet.BOOKISBN);
+            ViewBag.BOOKISBN = new SelectList(db.BOOKSet, "ISBN", "ISBN", cOPYSet.BOOKISBN);
             ViewBag.STATUSStatusId = new SelectList(db.STATUSSet, "StatusId", "status", cOPYSet.STATUSStatusId);
+
             return View(cOPYSet);
         }
 

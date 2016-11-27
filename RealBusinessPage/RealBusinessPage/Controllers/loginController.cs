@@ -14,7 +14,7 @@ namespace RealBusinessPage.Controllers
         public ActionResult Index()
         {
 
-
+            Session["level"] = "0";
             return View();
         }
 

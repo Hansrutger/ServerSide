@@ -18,6 +18,14 @@
         <div class="topMenuBtnLeft"><a href="/loan/details?username=@Session["personid"]">My Loans</a></div>
         <div class="topMenuBtnLeft"><a href="/account/Index">Accounts</a></div>
         <div class="topMenuBtnLeft"><a href="/search/Index">Search</a></div>
+        @if(Session.Count == 0 ||Session["level"].ToString() == "2")
+        {
+        <div class="topMenuBtnLeft"><a href="/COPYSets/Index">Books </a></div>
+        }
+        @*else
+        {
+            <div class="topMenuBtnLeft"><a href="/COPYSets/Index">Books </a></div>
+        }*@
 
         <div class="topMenuBtnRight"><a href="/login/Logout">Log Out</a></div>
     </div>

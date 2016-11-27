@@ -242,7 +242,7 @@ namespace RealBusinessPage.Controllers
                                 db.BORROWSet.Remove(obj);
                             }
 
-                            db.BORROWERSet.Remove(dbAccount);
+                                db.BORROWERSet.Remove(dbAccount);
                                 db.SaveChanges();
                             }
                         else
