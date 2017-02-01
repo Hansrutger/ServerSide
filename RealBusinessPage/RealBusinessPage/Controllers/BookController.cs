@@ -21,16 +21,17 @@ namespace RealBusinessPage.Controllers
         public ActionResult Index()
         {
             
-            if (Session["username"] == null)
+            if (Session["username"] == null || Session["level"].ToString() != "2")
             {
-                return RedirectToAction("Index", "login");
+                return RedirectToAction("Index", "Main");
             }
 
             List<BOOKSet> bookList = new List<BOOKSet>();
             bookList = _bookInterface.List();
             ViewBag.BookList = bookList;
-             
-            return View();
+            
+
+                return View();
         }
 
         // GET: book/create - admin
@@ -181,6 +182,20 @@ namespace RealBusinessPage.Controllers
                 }
             }
 
+            List<AUTHORSet> AuthorList = new List<AUTHORSet>();
+            using (var db = new ServerSideEntities2())
+            {
+                var dbauthor = (from a in db.AUTHORSet select a).ToList();
+                if (dbauthor != null)
+                {
+                    foreach (var authorObj in dbauthor)
+                    {
+                        AuthorList.Add(authorObj);
+                    }
+                }
+                ViewBag.AuthorList = AuthorList;
+            }
+
             return View();
         }
 
@@ -192,26 +207,27 @@ namespace RealBusinessPage.Controllers
             {
                 return RedirectToAction("Index", "main");
             }
-
+            char delimiterChars = ',';
+            String[] aIdList = authorIdList.Split(delimiterChars);
             try
             {
-                int isbnInput = Convert.ToInt32( collection["ISBN"].ToString());
+                
                 String TitleInput = collection["Title"].ToString();
                 String PublicationYearInput = collection["PublicationYear"].ToString();
                 String DescriptionInput = collection["Description"].ToString();
                 int PagesInput = Convert.ToInt32(collection["Pages"].ToString());
-                int AuthorId = Convert.ToInt32(collection["AuthorId"].ToString());
+                //int AuthorId = Convert.ToInt32(collection["AuthorId"].ToString());
 
                 using (var db = new ServerSideEntities2())
                 {
                     var dbBook = (from b in db.BOOKSet where b.ISBN == id select b).SingleOrDefault();
-                    var dbAuthor = (from a in db.AUTHORSet where a.AId == AuthorId select a).SingleOrDefault();
+                   // var dbAuthor = (from a in db.AUTHORSet where a.AId == dbBook select a).SingleOrDefault();
 
-                    if (dbBook != null && dbAuthor != null)
+                    if (dbBook != null)
                     {
                         try
                         {
-                            dbBook.ISBN = isbnInput;
+                            
                             dbBook.Title = TitleInput;
                             dbBook.PublicationYear = PublicationYearInput;
                             dbBook.PublicationInfo = DescriptionInput;

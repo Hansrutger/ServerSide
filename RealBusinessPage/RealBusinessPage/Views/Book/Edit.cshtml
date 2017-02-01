@@ -1,6 +1,7 @@
 ﻿@{
     ViewBag.Title = "Edit";
-    RealBusinessPage.Models.Books bookObj = ViewBag.BookInfo;
+    RealBusinessPage.Models.BOOKSet bookObj = ViewBag.BookInfo;
+    List<RealBusinessPage.Models.AUTHORSet> AuthorList = ViewBag.AuthorList;
 }
 
 <h2>Edit - @bookObj.Title (@bookObj.ISBN)</h2>
@@ -9,8 +10,8 @@
 {
     <table>
         <tr>
-            <td>ISBN:</td>
-            <td><input type="text" name="ISBN" value="@bookObj.ISBN" required /></td>
+            @*<td>ISBN:</td>
+            <td><input type="text" name="ISBN" value="@bookObj.ISBN" required /></td>*@
         </tr>
         <tr>
             <td>Title:</td>
@@ -18,23 +19,35 @@
         </tr>
         <tr>
             <td>PublicationYear:</td>
-            <td><input type="number" name="PublicationYear" value="@bookObj.PubYear" /></td>
+            <td><input type="number" name="PublicationYear" value="@bookObj.PublicationYear" /></td>
         </tr>
         <tr>
             <td>Description:</td>
-            <td><input type="text" name="Description" value="@bookObj.Description" /></td>
+            <td><input type="text" name="Description" value="@bookObj.PublicationInfo" /></td>
         </tr>
         <tr>
             <td>Pages:</td>
             <td><input type="number" name="Pages" value="@bookObj.Pages" /></td>
         </tr>
         <tr>
-            <td>AuthorId:</td>
-            <td><input type="number" name="AuthorId" value="@bookObj.Authors.AuthorId" /></td>
-        </tr>
+            @*<td>AuthorId:</td>
+            <td><input type="number" name="AuthorId" value="@bookObj." /></td>*@
+
+            @foreach (var obj in AuthorList)
+            {
+            <tr>
+                <td> <input type="checkbox" value="@obj.AId" name="Authors" /></td>
+                <td> @obj.FirstName @obj.LastName </td>
+
+                @*<td> <input type=""</td>*@
+            </tr>
+
+
+            }
+        
     </table>
 
     <br />
-    <input type="submit" value="Edit existing company" />
+    <input type="submit" value="Edit existing Book" />
 }
 
