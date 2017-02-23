@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    List<RealBusinessPage.Models.BORROWERSet> accList = ViewBag.UserList;
+}
+
+<h2>Account Manager</h2>
+@*@if(Session["username"] != null && Session["level"].ToString() == "2")
+{
+    foreach(var obj in accList)
+    {
+        <a href="/account/details?Username=@obj.Username">@obj.Username</a> 
+        <text>(</text><a href="/account/edit/@obj.AccId">Edit</a><text>, 
+        </text><a href="/account/remove/@obj.AccId">Delete</a><text>)</text><br />
+    }
+
+    <br />
+    <br />
+    <br />
+    <a href="/account/create">Create new account</a>
+}*@
+
+@if (Session["username"] != null)
+{
+    if (Session["level"].ToString() == "2")
+    {
+        foreach (var obj in accList)
+        {
+        <a href="/account/details?Username=@obj.Username">@obj.Username</a>
+        <text>(</text><a href="/account/edit/@obj.PersonId">Edit</a><text>,
+        </text><a href="/account/remove/@obj.PersonId">Delete</a><text>)</text><br />
+        }
+
+        <br />
+        <br />
+        <br />
+        <a href="/account/create">Create new account</a>
+    }
+    else
+    {
+        var obj = accList.Find(x => x.Username == Session["username"].ToString());
+
+        <a href="/account/details?Username=@obj.Username">@obj.Username</a>
+        <text>(</text><a href="/account/edit/@obj.PersonId">Edit</a><text>,
+        </text><a href="/account/remove/@obj.PersonId">Delete</a><text>)</text><br />
+    }
+}

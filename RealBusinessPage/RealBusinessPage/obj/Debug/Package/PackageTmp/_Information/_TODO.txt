@@ -1,0 +1,13 @@
+﻿-- DELETE THIS WHOLE FOLDER (_Information) when done! --
+
+
+Change to service layer:
+	Controllers:
+		Account
+			List, Read, Create, Edit, Delete
+		Author
+			List, Read, Create, Edit, Delete, Search
+		Book
+			List, Read, Create, Edit, Delete, Search
+		Loan
+			List, Renew, Read, Create, Delete, ForceLoan

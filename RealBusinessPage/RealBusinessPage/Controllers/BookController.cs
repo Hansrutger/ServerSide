@@ -207,8 +207,8 @@ namespace RealBusinessPage.Controllers
             {
                 return RedirectToAction("Index", "main");
             }
-            char delimiterChars = ',';
-            String[] aIdList = authorIdList.Split(delimiterChars);
+            //char delimiterChars = ',';
+            //String[] aIdList = authorIdList.Split(delimiterChars);
             try
             {
                 

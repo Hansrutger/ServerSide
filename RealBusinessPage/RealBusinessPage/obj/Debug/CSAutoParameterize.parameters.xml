@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="model1-Web.config Connection String" description="model1 Connection String used in web.config by the application to access the database." defaultValue="metadata=res://*/Models.Model.csdl|res://*/Models.Model.ssdl|res://*/Models.Model.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=memdb.cl6hxc6guc4g.eu-central-1.rds.amazonaws.com,1433;initial catalog=master;user id=serverside;password=mammaspojk;MultipleActiveResultSets=True;App=EntityFramework&quot;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\Charles\\Source\\Repos\\ServerSide\\RealBusinessPage\\RealBusinessPage\\obj\\Debug\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='model1']/@connectionString" />
+  </parameter>
+  <parameter name="ServerSideEntities2-Web.config Connection String" description="ServerSideEntities2 Connection String used in web.config by the application to access the database." defaultValue="metadata=res://*/Models.Model.csdl|res://*/Models.Model.ssdl|res://*/Models.Model.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=memdb.cl6hxc6guc4g.eu-central-1.rds.amazonaws.com,1433;initial catalog=tempdb;user id=serverside;password=mammaspojk;MultipleActiveResultSets=True;App=EntityFramework&quot;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\Charles\\Source\\Repos\\ServerSide\\RealBusinessPage\\RealBusinessPage\\obj\\Debug\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='ServerSideEntities2']/@connectionString" />
+  </parameter>
+</parameters>

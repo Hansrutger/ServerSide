@@ -1,0 +1,11 @@
+﻿
+@{
+    ViewBag.Title = "Remove";
+}
+
+<h2>Remove</h2>
+
+@using (Html.BeginForm("Remove", "author", FormMethod.Post))
+{
+    <input type="submit" value="Remove this author (and all of their books!!!) already!" />
+}

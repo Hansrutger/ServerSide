@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="822abd2d33c14da39216dce4cda416ab" Name="Diagram1">
+        <EntityTypeShape EntityType="Model.AUTHORSet" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.BOOKSet" Width="1.5" PointX="6.125" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.BORROWERSet" Width="1.5" PointX="10.625" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.BORROWSet" Width="1.5" PointX="11.625" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.CATEGORYSet" Width="1.5" PointX="13" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.CLASSIFICATIONSet" Width="1.5" PointX="6" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.COPYSet" Width="1.5" PointX="9" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.STATUSSet" Width="1.5" PointX="8.25" PointY="5.5" IsExpanded="true" />
+        <AssociationConnector Association="Model.FK_CLASSIFICATIONBOOK" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_ISBN" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_BORROWERBORROW" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_CATEGORYBORROWER" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_COPYBORROW" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_statusId" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Model.AUTHORBOOK" Width="1.5" PointX="3.5" PointY="1.75" />
+        <AssociationConnector Association="Model.AUTHORSetAUTHORBOOK" />
+        <AssociationConnector Association="Model.BOOKSetAUTHORBOOK" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

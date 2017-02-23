@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "Edit";
+    RealBusinessPage.Models.Authors authorObj = ViewBag.AuthorInfo;
+}
+
+<h2>Edit - @authorObj.AuthorId</h2>
+
+@using (Html.BeginForm("Edit", "author", FormMethod.Post))
+{
+    <table>
+        <tr>
+            <td>Firstname:</td>
+            <td><input type="text" name="FirstName" value="@authorObj.FirstName" required /></td>
+        </tr>
+        <tr>
+            <td>Lastname:</td>
+            <td><input type="text" name="LastName" value="@authorObj.LastName" required /></td>
+        </tr>
+        <tr>
+            <td>Birth Year:</td>
+            <td><input type="number" name="BirthYear" value="@authorObj.BirthYear" /></td>
+        </tr>
+    </table>
+
+    <br />
+    <input type="submit" value="Edit author" />
+}

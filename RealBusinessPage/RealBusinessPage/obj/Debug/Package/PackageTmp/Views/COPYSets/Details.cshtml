@@ -1,0 +1,50 @@
+﻿@model RealBusinessPage.Models.COPYSet
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>COPYSet</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Location)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Location)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Library)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Library)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BOOKSet.PublicationYear)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BOOKSet.PublicationYear)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.STATUSSet.status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.STATUSSet.status)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Barcode }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

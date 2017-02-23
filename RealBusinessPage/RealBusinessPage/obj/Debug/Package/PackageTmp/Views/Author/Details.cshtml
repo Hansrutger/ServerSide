@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "Details";
+    RealBusinessPage.Models.AUTHORSet authorObj = ViewBag.AuthorInfo;
+}
+
+<h2>Details - @authorObj.FirstName @authorObj.LastName</h2>
+<div>
+    Birth Year: @authorObj.BirthYear
+</div>
+<br />
+<br />
+<br />
+@if(Session["admin"] != null && Session["admin"].ToString() == "true")
+{
+    <text>Author ID: </text>@authorObj.AId
+    <br />
+    <br /><a href="/author/create/">Create new author</a>
+    <br /><a href="/author/edit/@authorObj.AId">Edit this author</a>
+    <br /><a href="/author/remove/@authorObj.AId">Delete this author</a>
+}
+
+

@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+    List<RealBusinessPage.Models.AUTHORSet> AuthorList = ViewBag.AuthorList;
+    //List<RealBusinessPage.Models.AUTHORSet> AuthorToThisBook;
+}
+
+<h3>Create</h3>
+
+@using (Html.BeginForm("Create", "book", FormMethod.Post))
+{
+    <table>
+        @*<tr>
+            <td>ISBN:</td>
+            <td><input type="text" name="ISBN" required /></td>
+        </tr>*@
+        <tr>
+            <td>Title:</td>
+            <td><input type="text" name="Title" required /></td>
+        </tr>
+        <tr>
+            <td>PublicationYear:</td>
+            <td><input type="number" name="PublicationYear" /></td>
+        </tr>
+        <tr>
+            <td>Description:</td>
+            <td><input type="text" name="Description" /></td>
+        </tr>
+        <tr>
+            <td>Pages:</td>
+            <td><input type="number" name="Pages" /></td>
+        </tr>
+        @*<tr>
+            <td>AuthorId:</td>
+            <td><input type="number" name="AuthorId" /></td>
+        </tr>*@
+        @*@using (Html.BeginForm())
+        {*@
+            
+            @foreach (var obj in AuthorList)
+            {
+                    <tr>
+                        <td> <input type="checkbox" value="@obj.AId" name="Authors" /></td>
+                        <td> @obj.FirstName @obj.LastName </td>
+
+                        @*<td> <input type=""</td>*@               
+                    </tr>
+
+
+            }
+            <tr>
+                @*<td><input type="submit" value="Add Author(s)" /></td>*@
+            </tr>
+        @*}*@
+    </table>
+
+    <br />
+    <input type="submit" value="Create new book" />
+}
+
+

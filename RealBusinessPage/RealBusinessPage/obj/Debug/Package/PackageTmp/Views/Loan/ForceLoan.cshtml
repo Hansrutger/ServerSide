@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "ForceLoan";
+}
+
+<h2>ForceLoan</h2>
+
+@if (Session["username"] != null && Session["level"].ToString() == "2")
+{
+    using (Html.BeginForm("ForceLoan", "loan", FormMethod.Post))
+    {
+        <table>
+            <tr>
+                <td>Username:</td>
+                <td><input type="text" name="username" /></td>
+            </tr>
+        </table>
+
+        <input type="submit" value="Force it!" />
+    }
+}
+
+

@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <setParameter name="IIS Web Application Name" value="Default Web Site/" />
+  <setParameter name="model1-Web.config Connection String" value="metadata=res://*/Models.Model.csdl|res://*/Models.Model.ssdl|res://*/Models.Model.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=memdb.cl6hxc6guc4g.eu-central-1.rds.amazonaws.com,1433;initial catalog=master;user id=serverside;password=mammaspojk;MultipleActiveResultSets=True;App=EntityFramework&quot;" />
+  <setParameter name="ServerSideEntities2-Web.config Connection String" value="metadata=res://*/Models.Model.csdl|res://*/Models.Model.ssdl|res://*/Models.Model.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=memdb.cl6hxc6guc4g.eu-central-1.rds.amazonaws.com,1433;initial catalog=tempdb;user id=serverside;password=mammaspojk;MultipleActiveResultSets=True;App=EntityFramework&quot;" />
+</parameters>
