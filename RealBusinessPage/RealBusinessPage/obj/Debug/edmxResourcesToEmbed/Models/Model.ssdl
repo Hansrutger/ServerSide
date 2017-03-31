@@ -1,13 +1,48 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <EntityType Name="AUTHORBOOKSet">
-    <Key>
-      <PropertyRef Name="AUTHORSetAId" />
-      <PropertyRef Name="BOOKSetISBN" />
-    </Key>
-    <Property Name="AUTHORSetAId" Type="int" Nullable="false" />
-    <Property Name="BOOKSetISBN" Type="int" Nullable="false" />
-  </EntityType>
+<Schema Namespace="Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ModelStoreContainer">
+    <EntitySet Name="AUTHORSet" EntityType="Model.Store.AUTHORSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="BOOKSet" EntityType="Model.Store.BOOKSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="BORROWERSet" EntityType="Model.Store.BORROWERSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="BORROWSet" EntityType="Model.Store.BORROWSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CATEGORYSet" EntityType="Model.Store.CATEGORYSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CLASSIFICATIONSet" EntityType="Model.Store.CLASSIFICATIONSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="COPYSet" EntityType="Model.Store.COPYSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="STATUSSet" EntityType="Model.Store.STATUSSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AUTHORBOOKSet" EntityType="Model.Store.AUTHORBOOKSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_CLASSIFICATIONBOOK" Association="Model.Store.FK_CLASSIFICATIONBOOK">
+      <End Role="CLASSIFICATIONSet" EntitySet="CLASSIFICATIONSet" />
+      <End Role="BOOKSet" EntitySet="BOOKSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ISBN" Association="Model.Store.FK_ISBN">
+      <End Role="BOOKSet" EntitySet="BOOKSet" />
+      <End Role="COPYSet" EntitySet="COPYSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BORROWERBORROW" Association="Model.Store.FK_BORROWERBORROW">
+      <End Role="BORROWERSet" EntitySet="BORROWERSet" />
+      <End Role="BORROWSet" EntitySet="BORROWSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CATEGORYBORROWER" Association="Model.Store.FK_CATEGORYBORROWER">
+      <End Role="CATEGORYSet" EntitySet="CATEGORYSet" />
+      <End Role="BORROWERSet" EntitySet="BORROWERSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_COPYBORROW" Association="Model.Store.FK_COPYBORROW">
+      <End Role="COPYSet" EntitySet="COPYSet" />
+      <End Role="BORROWSet" EntitySet="BORROWSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_statusId" Association="Model.Store.FK_statusId">
+      <End Role="STATUSSet" EntitySet="STATUSSet" />
+      <End Role="COPYSet" EntitySet="COPYSet" />
+    </AssociationSet>
+    <AssociationSet Name="AUTHORSetAUTHORBOOK" Association="Model.Store.AUTHORSetAUTHORBOOK">
+      <End Role="AUTHORSet" EntitySet="AUTHORSet" />
+      <End Role="AUTHORBOOK" EntitySet="AUTHORBOOKSet" />
+    </AssociationSet>
+    <AssociationSet Name="BOOKSetAUTHORBOOK" Association="Model.Store.BOOKSetAUTHORBOOK">
+      <End Role="BOOKSet" EntitySet="BOOKSet" />
+      <End Role="AUTHORBOOK" EntitySet="AUTHORBOOKSet" />
+    </AssociationSet>
+  </EntityContainer>
   <EntityType Name="AUTHORSet">
     <Key>
       <PropertyRef Name="AId" />
@@ -26,7 +61,7 @@
     <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Pages" Type="int" Nullable="false" />
     <Property Name="PublicationInfo" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="CLASSIFICATIONSignId" Type="int" />
+    <Property Name="CLASSIFICATIONSignId" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="BORROWERSet">
     <Key>
@@ -50,7 +85,7 @@
     <Property Name="Borrowid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="BorrowDate" Type="nvarchar(max)" Nullable="false" />
     <Property Name="ToBeReturnedDate" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="ReturnDate" Type="nvarchar(max)" />
+    <Property Name="ReturnDate" Type="nvarchar(max)" Nullable="true" />
     <Property Name="COPYBarcode" Type="int" Nullable="false" />
     <Property Name="BORROWERPersonId" Type="int" Nullable="false" />
   </EntityType>
@@ -78,8 +113,8 @@
     <Property Name="Barcode" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Location" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Library" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="STATUSStatusId" Type="int" />
-    <Property Name="BOOKISBN" Type="int" />
+    <Property Name="STATUSStatusId" Type="int" Nullable="true" />
+    <Property Name="BOOKISBN" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="STATUSSet">
     <Key>
@@ -88,33 +123,41 @@
     <Property Name="StatusId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="status" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
-  <Association Name="FK_AUTHORSetAUTHORBOOK">
-    <End Role="AUTHORSet" Type="Self.AUTHORSet" Multiplicity="1" />
-    <End Role="AUTHORBOOKSet" Type="Self.AUTHORBOOKSet" Multiplicity="*" />
+  <EntityType Name="AUTHORBOOKSet">
+    <Key>
+      <PropertyRef Name="AUTHORSetAId" />
+      <PropertyRef Name="BOOKSetISBN" />
+    </Key>
+    <Property Name="AUTHORSetAId" Type="int" Nullable="false" />
+    <Property Name="BOOKSetISBN" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_CLASSIFICATIONBOOK">
+    <End Role="CLASSIFICATIONSet" Type="Model.Store.CLASSIFICATIONSet" Multiplicity="0..1" />
+    <End Role="BOOKSet" Type="Model.Store.BOOKSet" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="AUTHORSet">
-        <PropertyRef Name="AId" />
+      <Principal Role="CLASSIFICATIONSet">
+        <PropertyRef Name="SignId" />
       </Principal>
-      <Dependent Role="AUTHORBOOKSet">
-        <PropertyRef Name="AUTHORSetAId" />
+      <Dependent Role="BOOKSet">
+        <PropertyRef Name="CLASSIFICATIONSignId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_BOOKSetAUTHORBOOK">
-    <End Role="BOOKSet" Type="Self.BOOKSet" Multiplicity="1" />
-    <End Role="AUTHORBOOKSet" Type="Self.AUTHORBOOKSet" Multiplicity="*" />
+  <Association Name="FK_ISBN">
+    <End Role="BOOKSet" Type="Model.Store.BOOKSet" Multiplicity="0..1" />
+    <End Role="COPYSet" Type="Model.Store.COPYSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="BOOKSet">
         <PropertyRef Name="ISBN" />
       </Principal>
-      <Dependent Role="AUTHORBOOKSet">
-        <PropertyRef Name="BOOKSetISBN" />
+      <Dependent Role="COPYSet">
+        <PropertyRef Name="BOOKISBN" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_BORROWERBORROW">
-    <End Role="BORROWERSet" Type="Self.BORROWERSet" Multiplicity="1" />
-    <End Role="BORROWSet" Type="Self.BORROWSet" Multiplicity="*" />
+    <End Role="BORROWERSet" Type="Model.Store.BORROWERSet" Multiplicity="1" />
+    <End Role="BORROWSet" Type="Model.Store.BORROWSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="BORROWERSet">
         <PropertyRef Name="PersonId" />
@@ -125,8 +168,8 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_CATEGORYBORROWER">
-    <End Role="CATEGORYSet" Type="Self.CATEGORYSet" Multiplicity="1" />
-    <End Role="BORROWERSet" Type="Self.BORROWERSet" Multiplicity="*" />
+    <End Role="CATEGORYSet" Type="Model.Store.CATEGORYSet" Multiplicity="1" />
+    <End Role="BORROWERSet" Type="Model.Store.BORROWERSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="CATEGORYSet">
         <PropertyRef Name="CategoryId" />
@@ -136,21 +179,9 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_CLASSIFICATIONBOOK">
-    <End Role="CLASSIFICATIONSet" Type="Self.CLASSIFICATIONSet" Multiplicity="0..1" />
-    <End Role="BOOKSet" Type="Self.BOOKSet" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CLASSIFICATIONSet">
-        <PropertyRef Name="SignId" />
-      </Principal>
-      <Dependent Role="BOOKSet">
-        <PropertyRef Name="CLASSIFICATIONSignId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_COPYBORROW">
-    <End Role="COPYSet" Type="Self.COPYSet" Multiplicity="1" />
-    <End Role="BORROWSet" Type="Self.BORROWSet" Multiplicity="*" />
+    <End Role="COPYSet" Type="Model.Store.COPYSet" Multiplicity="1" />
+    <End Role="BORROWSet" Type="Model.Store.BORROWSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="COPYSet">
         <PropertyRef Name="Barcode" />
@@ -160,21 +191,9 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ISBN">
-    <End Role="BOOKSet" Type="Self.BOOKSet" Multiplicity="0..1" />
-    <End Role="COPYSet" Type="Self.COPYSet" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="BOOKSet">
-        <PropertyRef Name="ISBN" />
-      </Principal>
-      <Dependent Role="COPYSet">
-        <PropertyRef Name="BOOKISBN" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_statusId">
-    <End Role="STATUSSet" Type="Self.STATUSSet" Multiplicity="0..1" />
-    <End Role="COPYSet" Type="Self.COPYSet" Multiplicity="*" />
+    <End Role="STATUSSet" Type="Model.Store.STATUSSet" Multiplicity="0..1" />
+    <End Role="COPYSet" Type="Model.Store.COPYSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="STATUSSet">
         <PropertyRef Name="StatusId" />
@@ -184,47 +203,28 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="ModelStoreContainer">
-    <EntitySet Name="AUTHORBOOKSet" EntityType="Self.AUTHORBOOKSet" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="AUTHORSet" EntityType="Self.AUTHORSet" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="BOOKSet" EntityType="Self.BOOKSet" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="BORROWERSet" EntityType="Self.BORROWERSet" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="BORROWSet" EntityType="Self.BORROWSet" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="CATEGORYSet" EntityType="Self.CATEGORYSet" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="CLASSIFICATIONSet" EntityType="Self.CLASSIFICATIONSet" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="COPYSet" EntityType="Self.COPYSet" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="STATUSSet" EntityType="Self.STATUSSet" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK_AUTHORSetAUTHORBOOK" Association="Self.FK_AUTHORSetAUTHORBOOK">
-      <End Role="AUTHORSet" EntitySet="AUTHORSet" />
-      <End Role="AUTHORBOOKSet" EntitySet="AUTHORBOOKSet" />
-    </AssociationSet>
-    <AssociationSet Name="FK_BOOKSetAUTHORBOOK" Association="Self.FK_BOOKSetAUTHORBOOK">
-      <End Role="BOOKSet" EntitySet="BOOKSet" />
-      <End Role="AUTHORBOOKSet" EntitySet="AUTHORBOOKSet" />
-    </AssociationSet>
-    <AssociationSet Name="FK_BORROWERBORROW" Association="Self.FK_BORROWERBORROW">
-      <End Role="BORROWERSet" EntitySet="BORROWERSet" />
-      <End Role="BORROWSet" EntitySet="BORROWSet" />
-    </AssociationSet>
-    <AssociationSet Name="FK_CATEGORYBORROWER" Association="Self.FK_CATEGORYBORROWER">
-      <End Role="CATEGORYSet" EntitySet="CATEGORYSet" />
-      <End Role="BORROWERSet" EntitySet="BORROWERSet" />
-    </AssociationSet>
-    <AssociationSet Name="FK_CLASSIFICATIONBOOK" Association="Self.FK_CLASSIFICATIONBOOK">
-      <End Role="CLASSIFICATIONSet" EntitySet="CLASSIFICATIONSet" />
-      <End Role="BOOKSet" EntitySet="BOOKSet" />
-    </AssociationSet>
-    <AssociationSet Name="FK_COPYBORROW" Association="Self.FK_COPYBORROW">
-      <End Role="COPYSet" EntitySet="COPYSet" />
-      <End Role="BORROWSet" EntitySet="BORROWSet" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ISBN" Association="Self.FK_ISBN">
-      <End Role="BOOKSet" EntitySet="BOOKSet" />
-      <End Role="COPYSet" EntitySet="COPYSet" />
-    </AssociationSet>
-    <AssociationSet Name="FK_statusId" Association="Self.FK_statusId">
-      <End Role="STATUSSet" EntitySet="STATUSSet" />
-      <End Role="COPYSet" EntitySet="COPYSet" />
-    </AssociationSet>
-  </EntityContainer>
+  <Association Name="AUTHORSetAUTHORBOOK">
+    <End Role="AUTHORSet" Type="Model.Store.AUTHORSet" Multiplicity="1" />
+    <End Role="AUTHORBOOK" Type="Model.Store.AUTHORBOOKSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AUTHORSet">
+        <PropertyRef Name="AId" />
+      </Principal>
+      <Dependent Role="AUTHORBOOK">
+        <PropertyRef Name="AUTHORSetAId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="BOOKSetAUTHORBOOK">
+    <End Role="BOOKSet" Type="Model.Store.BOOKSet" Multiplicity="1" />
+    <End Role="AUTHORBOOK" Type="Model.Store.AUTHORBOOKSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BOOKSet">
+        <PropertyRef Name="ISBN" />
+      </Principal>
+      <Dependent Role="AUTHORBOOK">
+        <PropertyRef Name="BOOKSetISBN" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>
