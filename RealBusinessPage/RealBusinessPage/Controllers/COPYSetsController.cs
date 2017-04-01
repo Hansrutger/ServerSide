@@ -120,7 +120,7 @@ namespace RealBusinessPage.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.BOOKISBN = new SelectList(db.BOOKSet, "ISBN", "PublicationYear", cOPYSet.BOOKISBN);
+            ViewBag.BOOKISBN = new SelectList(db.BOOKSet, "ISBN", "ISBN", cOPYSet.BOOKISBN);
             ViewBag.STATUSStatusId = new SelectList(db.STATUSSet, "StatusId", "status", cOPYSet.STATUSStatusId);
             return View(cOPYSet);
         }
