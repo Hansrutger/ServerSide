@@ -20,7 +20,11 @@ namespace RealBusinessPage.Controllers
         // GET: loan/Details/hasse - om admin så vilken som helst användare, annars bara sig själv
         public ActionResult Details(string username)
         {
-           int _username =Convert.ToInt32( username);
+            if (Session["username"] == null)
+            {
+                return RedirectToAction("Index", "login");
+            }
+            int _username =Convert.ToInt32( username);
             
             //if (Session["level"].ToString() != "2")
             //{

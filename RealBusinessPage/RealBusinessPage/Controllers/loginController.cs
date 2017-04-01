@@ -15,6 +15,7 @@ namespace RealBusinessPage.Controllers
         {
 
             Session["level"] = "0";
+            ViewBag.Message = TempData["Message"];
             return View();
         }
 
@@ -48,6 +49,13 @@ namespace RealBusinessPage.Controllers
                         Session["level"] = user.Level;
 
                     }
+                    else
+                    {
+                        TempData["Message"] = "Username or Password was wrong";
+                        return RedirectToAction("Index", "Login");
+                    }
+                    
+
                 }
 
 

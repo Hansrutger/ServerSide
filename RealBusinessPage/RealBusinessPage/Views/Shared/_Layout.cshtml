@@ -18,7 +18,7 @@
         <div class="topMenuBtnLeft"><a href="/loan/details?username=@Session["personid"]">My Loans</a></div>
         <div class="topMenuBtnLeft"><a href="/account/Index">Accounts</a></div>
         <div class="topMenuBtnLeft"><a href="/search/Index">Search</a></div>
-        @if(Session.Count == 0 ||Session["level"].ToString() == "2")
+        @if(Session["level"].ToString() == "2" || Session["Username"] != null)
         {
         <div class="topMenuBtnLeft"><a href="/COPYSets/Index">Books </a></div>
         }

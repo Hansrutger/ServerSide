@@ -1,5 +1,6 @@
 ﻿@{
     ViewBag.Title = "Index";
+    string error = @ViewBag.Message;
 }
 
 <h2>Index</h2>
@@ -9,16 +10,18 @@
     <table>
         <tr>
             <td>Username:</td>
-            <td><input type="text" name="Username" /></td>
+            <td><input required type="text" name="Username" /></td>
         </tr>
         <tr>
             <td>Password:</td>
-            <td><input type="password" name="Password" /></td>
+            <td><input required type="password" name="Password" /></td>
         </tr>
 
     </table>
 
     <br />
     <input type="submit" value="Log in" />
+    <br />
+    @error
 }
 <a href="/account/Create">Register</a>

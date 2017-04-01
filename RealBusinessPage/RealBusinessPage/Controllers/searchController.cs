@@ -14,7 +14,10 @@ namespace RealBusinessPage.Controllers
 
         public ActionResult Index()
         {
-
+            if (Session["username"] == null)
+            {
+                return RedirectToAction("seeBooksIsStore", "Search");
+            }
 
             List<BOOKSet> resultList = new List<BOOKSet>();
             try
@@ -31,13 +34,21 @@ namespace RealBusinessPage.Controllers
                         }
 
                         ViewBag.ResultSearch = resultList;
-                        return View();
+                        if (Session["username"] == null)
+                        {
+                            RedirectToAction("Search", "seeBooksIsStore");
+                        }
+                        else
+                        {
+                            return View();
+                        }
                     }
                     else
                     {
                         return View(); // lists == null
                     }
                 }
+                return View();
             }
             catch (NullReferenceException e)
             {
@@ -94,6 +105,32 @@ namespace RealBusinessPage.Controllers
             catch (NullReferenceException e)
             {
                 return View(); //s.length == 0
+            }
+        }
+
+        public ActionResult seeBooksIsStore()
+        {
+            List<BOOKSet> resultList = new List<BOOKSet>();
+            using (var db = new ServerSideEntities2())
+            {
+                var bookObj = (from b in db.BOOKSet select b).ToList();
+
+                if (bookObj != null)
+                {
+                    foreach (var b in bookObj)
+                    {
+                        resultList.Add(b);
+                    }
+
+                    ViewBag.ResultSearch = resultList;
+
+                }
+                else
+                {
+                    return View(); // lists == null
+
+                }
+                return View();
             }
         }
     }

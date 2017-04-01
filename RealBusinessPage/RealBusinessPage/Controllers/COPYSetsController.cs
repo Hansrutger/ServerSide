@@ -18,7 +18,7 @@ namespace RealBusinessPage.Controllers
         // GET: COPYSets
         public async Task<ActionResult> Index()
         {
-            if (Session["level"].ToString() != "2")
+            if (Session.Count==0||Session["level"].ToString() != "2" || Session["Username"]==null)
             {
                 return RedirectToAction("NoAuthrization", "Error");
             }
@@ -164,7 +164,7 @@ namespace RealBusinessPage.Controllers
             if (disposing)
             {
                 db.Dispose();
-            }
+             }
             base.Dispose(disposing);
         }
     }
